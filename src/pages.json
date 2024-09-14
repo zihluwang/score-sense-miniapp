@@ -1,0 +1,108 @@
+{
+  "globalStyle": {
+    "navigationStyle": "default",
+    "navigationBarTitleText": "unibest",
+    "navigationBarBackgroundColor": "#f8f8f8",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FFFFFF"
+  },
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^wd-(.*)": "wot-design-uni/components/wd-$1/wd-$1.vue",
+      "^(?!z-paging-refresh|z-paging-load-more)z-paging(.*)": "z-paging/components/z-paging$1/z-paging$1.vue"
+    }
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1F53FF",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "height": "50px",
+    "fontSize": "10px",
+    "iconWidth": "24px",
+    "spacing": "3px",
+    "list": [
+      {
+        "iconPath": "static/tabbar/index_normal.png",
+        "selectedIconPath": "static/tabbar/index_active.png",
+        "pagePath": "pages/index/index",
+        "text": "估分助手"
+      },
+      {
+        "iconPath": "static/tabbar/my_normal.png",
+        "selectedIconPath": "static/tabbar/my_active.png",
+        "pagePath": "pages/my/my",
+        "text": "我的估分"
+      }
+    ]
+  },
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "type": "home",
+      "layout": "floatNavBar",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "首页"
+      }
+    },
+    {
+      "path": "pages/answering/answering",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "答题页面"
+      }
+    },
+    {
+      "path": "pages/memory/memory",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "我来回忆"
+      }
+    },
+    {
+      "path": "pages/my/my",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "我的估分"
+      }
+    },
+    {
+      "path": "pages/score-position/score-position",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "估分职位"
+      }
+    },
+    {
+      "path": "pages/score-ranking/score-ranking",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "估分排名"
+      }
+    },
+    {
+      "path": "pages/score-report/score-report",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "估分报告"
+      }
+    },
+    {
+      "path": "pages/start-scoring/start-scoring",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "开始估分界面"
+      }
+    }
+  ],
+  "subPackages": []
+}

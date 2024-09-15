@@ -41,9 +41,8 @@
     {
       "path": "pages/index/index",
       "type": "home",
-      "layout": "floatNavBar",
+      "layout": "default",
       "style": {
-        "navigationStyle": "custom",
         "navigationBarTitleText": "首页"
       }
     },

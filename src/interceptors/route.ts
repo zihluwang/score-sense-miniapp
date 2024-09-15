@@ -10,9 +10,9 @@ import { getNeedLoginPages, needLoginPages as _needLoginPages } from '@/utils'
 // TODO Check
 const loginRoute = '/pages/login/index'
 
-const isLogined = () => {
+const isLogin = () => {
   const userStore = useUserStore()
-  return userStore.isLogined
+  return userStore.isLogin
 }
 
 const isDev = import.meta.env.DEV
@@ -34,7 +34,7 @@ const navigateToInterceptor = {
     if (!isNeedLogin) {
       return true
     }
-    const hasLogin = isLogined()
+    const hasLogin = isLogin()
     if (hasLogin) {
       return true
     }

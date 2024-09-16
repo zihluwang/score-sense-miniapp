@@ -132,15 +132,17 @@ export const getEvnBaseUrl = () => {
       miniProgram: { envVersion },
     } = uni.getAccountInfoSync()
 
+    console.log('当前小程序环境:', envVersion)
+
     switch (envVersion) {
       case 'develop':
-        baseUrl = 'https://ukw0y1.laf.run'
+        baseUrl = 'http://localhost:8080'
         break
       case 'trial':
-        baseUrl = 'https://ukw0y1.laf.run'
+        baseUrl = 'http://localhost:8080'
         break
       case 'release':
-        baseUrl = 'https://ukw0y1.laf.run'
+        baseUrl = 'http://localhost:8080'
         break
     }
   }

@@ -2,12 +2,13 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 const initState: IUserInfo = {
-  id: '',
-  openid: '',
+  id: 0,
+  openId: '',
   token: '',
   username: '',
-  phone: '',
-  avatar: '',
+  phoneNumber: '',
+  avatarUrl: '',
+  isBlocked: false,
 }
 
 export const useUserStore = defineStore(

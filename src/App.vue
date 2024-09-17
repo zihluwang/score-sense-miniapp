@@ -28,7 +28,8 @@ page {
 
 view,
 image,
-text {
+text,
+scroll-view {
   box-sizing: border-box;
 }
 

@@ -43,25 +43,16 @@
         </view>
       </view>
       <!-- tab栏 -->
-      <wd-tabs
-        custom-class="tabs"
-        :slidable-num="5"
-        :map-num="10000"
-        inactiveColor="#999999"
-        v-model:current="tab"
-      >
-        <view v-for="item in tabs" :key="item.id">
-          <wd-tab :title="item.title">
-            <view class="h-0"></view>
-          </wd-tab>
-        </view>
-      </wd-tabs>
+      <Tabs :tabs="tabs" @change-tab="handleChangeTab" />
       <!-- 列表 -->
     </view>
   </view>
 </template>
 
 <script lang="ts" setup>
+import Tabs from '@/components/Tabs/Tabs.vue'
+import { ITabsItem } from '@/types/index/tabs'
+
 defineOptions({
   name: 'Home',
 })
@@ -75,8 +66,7 @@ const swiperList = ref([
   'https://registry.npmmirror.com/wot-design-uni-assets/*/files/meng.jpg',
 ])
 
-const tab = ref<number>(0)
-const tabs = ref([
+const tabs = ref<ITabsItem[]>([
   { id: 1, title: '最新' },
   { id: 2, title: '公务员' },
   { id: 3, title: '事业单位' },
@@ -92,6 +82,11 @@ const tabs = ref([
   { id: 13, title: '书记员' },
   { id: 14, title: '六项人员' },
 ])
+const handleChangeTab = (tab: ITabsItem, currentTab: string, index: number) => {
+  console.log(tab)
+  console.log(currentTab)
+  console.log(index)
+}
 </script>
 
 <style scoped lang="scss">

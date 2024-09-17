@@ -52,7 +52,7 @@
             <view class="top-row">
               <view class="pass-num">已有{{ item.users }}人参与</view>
               <view class="menus">
-                <view class="memory">
+                <view class="memory" @click="toMemoryPage(item.id)">
                   我来回忆
                   <wd-icon name="arrow-right" size="32rpx"></wd-icon>
                 </view>
@@ -97,6 +97,12 @@ import { showLoading, hideLoading } from '@/utils/toast'
 defineOptions({
   name: 'Home',
 })
+
+const toMemoryPage = (id: string | number) => {
+  uni.navigateTo({
+    url: '/pages/memory/memory?ud=' + id,
+  })
+}
 
 const current = ref<number>(0)
 const swiperList = ref([

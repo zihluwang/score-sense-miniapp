@@ -11,6 +11,7 @@
   <view class="index-container">
     <!-- 轮播图 -->
     <wd-swiper
+      id="swiper"
       :list="swiperList"
       autoplay
       v-model:current="current"
@@ -45,6 +46,37 @@
       <!-- tab栏 -->
       <Tabs :tabs="tabs" @change-tab="handleChangeTab" />
       <!-- 列表 -->
+      <scroll-view class="exam-list-wrapper" enable-flex scroll-y>
+        <view class="exam-list">
+          <view class="exam-list-item" v-for="item in examList" :key="item.id">
+            <view class="top-row">
+              <view class="pass-num">已有{{ item.users }}人参与</view>
+              <view class="menus">
+                <view class="memory">
+                  我来回忆
+                  <wd-icon name="arrow-right" size="32rpx"></wd-icon>
+                </view>
+                <view class="share">
+                  分享
+                  <wd-icon name="arrow-right" size="32rpx"></wd-icon>
+                </view>
+              </view>
+            </view>
+            <view class="middle-row ellipsis-2">
+              {{ item.name }}
+            </view>
+            <view class="bottom-row">
+              <view class="publish-time">上线时间：{{ item.publishTime }}</view>
+              <view v-if="item.type === 1" class="buttons-1">预约估分</view>
+              <view v-else-if="item.type === 2" class="buttons-2">
+                <view class="left">重新估分</view>
+                <view class="right">查看报告</view>
+              </view>
+              <view v-else class="buttons-3">确认报名</view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
     </view>
   </view>
 </template>
@@ -52,6 +84,7 @@
 <script lang="ts" setup>
 import Tabs from '@/components/Tabs/Tabs.vue'
 import { ITabsItem } from '@/types/index/tabs'
+import { showLoading, hideLoading } from '@/utils/toast'
 
 defineOptions({
   name: 'Home',
@@ -86,14 +119,154 @@ const handleChangeTab = (tab: ITabsItem, currentTab: string, index: number) => {
   console.log(tab)
   console.log(currentTab)
   console.log(index)
+  showLoading()
+  examList.value = []
+
+  setTimeout(() => {
+    hideLoading()
+    examList.value = [
+      {
+        id: 1,
+        users: 30,
+        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+        publishTime: '09月23日 10:30',
+        type: 1,
+      },
+      {
+        id: 2,
+        users: 99,
+        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+        publishTime: '09月23日 10:30',
+        type: 2,
+      },
+      {
+        id: 3,
+        users: 4,
+        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+        publishTime: '09月23日 10:30',
+        type: 3,
+      },
+      {
+        id: 4,
+        users: 78,
+        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+        publishTime: '09月23日 10:30',
+        type: 2,
+      },
+      {
+        id: 5,
+        users: 128,
+        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+        publishTime: '09月23日 10:30',
+        type: 1,
+      },
+      {
+        id: 6,
+        users: 887,
+        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+        publishTime: '09月23日 10:30',
+        type: 2,
+      },
+      {
+        id: 7,
+        users: 1,
+        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+        publishTime: '09月23日 10:30',
+        type: 3,
+      },
+      {
+        id: 8,
+        users: 99,
+        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+        publishTime: '09月23日 10:30',
+        type: 2,
+      },
+      {
+        id: 9,
+        users: 2,
+        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+        publishTime: '09月23日 10:30',
+        type: 1,
+      },
+    ]
+  }, 1500)
 }
+
+const examList = ref([
+  {
+    id: 1,
+    users: 30,
+    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+    publishTime: '09月23日 10:30',
+    type: 1,
+  },
+  {
+    id: 2,
+    users: 99,
+    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+    publishTime: '09月23日 10:30',
+    type: 2,
+  },
+  {
+    id: 3,
+    users: 4,
+    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+    publishTime: '09月23日 10:30',
+    type: 3,
+  },
+  {
+    id: 4,
+    users: 78,
+    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+    publishTime: '09月23日 10:30',
+    type: 2,
+  },
+  {
+    id: 5,
+    users: 128,
+    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+    publishTime: '09月23日 10:30',
+    type: 1,
+  },
+  {
+    id: 6,
+    users: 887,
+    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+    publishTime: '09月23日 10:30',
+    type: 2,
+  },
+  {
+    id: 7,
+    users: 1,
+    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+    publishTime: '09月23日 10:30',
+    type: 3,
+  },
+  {
+    id: 8,
+    users: 99,
+    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+    publishTime: '09月23日 10:30',
+    type: 2,
+  },
+  {
+    id: 9,
+    users: 2,
+    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+    publishTime: '09月23日 10:30',
+    type: 1,
+  },
+])
 </script>
 
 <style scoped lang="scss">
 .index-container {
+  height: 100vh;
+
   // 关闭轮播图的圆角
   :deep(.swiper) {
     .wd-swiper__track {
+      height: 364rpx !important;
       border-radius: 0 !important;
     }
   }
@@ -146,7 +319,7 @@ const handleChangeTab = (tab: ITabsItem, currentTab: string, index: number) => {
 
   .content-wrapper {
     width: 100%;
-    padding: 25rpx;
+    padding: 25rpx 25rpx 0 25rpx;
 
     .notice-bar {
       display: flex;
@@ -174,11 +347,139 @@ const handleChangeTab = (tab: ITabsItem, currentTab: string, index: number) => {
       }
     }
 
-    :deep(.tabs) {
-      background: transparent !important;
+    .exam-list-wrapper {
+      height: calc(100vh - 604rpx);
+      margin-top: 25rpx;
 
-      .wd-tabs__nav {
-        background: transparent !important;
+      .exam-list {
+        padding-bottom: 25rpx;
+
+        .exam-list-item {
+          position: relative;
+          height: 260rpx;
+          padding: 0 25rpx 25rpx 25rpx;
+          margin-bottom: 25rpx;
+          background: linear-gradient(180deg, #e8f5ff 0%, #ffffff 30%, #ffffff 100%);
+          border-radius: 28rpx;
+          box-shadow: 0rpx 1rpx 4rpx 0rpx #999999;
+
+          &:nth-last-child(1) {
+            margin-bottom: 0;
+          }
+
+          .top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 59rpx;
+
+            .pass-num {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 198rpx;
+              height: 59rpx;
+              font-size: 24rpx;
+              font-weight: 500;
+              line-height: 59rpx;
+              color: #ffffff;
+              text-align: center;
+              background: linear-gradient(270deg, #3075f3 0%, #7993f8 100%);
+              border-radius: 28rpx 0rpx 28rpx 0rpx;
+            }
+
+            .menus {
+              display: flex;
+              align-items: center;
+              justify-content: flex-end;
+              width: 250rpx;
+              height: 59rpx;
+              margin-right: 0;
+              margin-left: auto;
+              font-size: 24rpx;
+              color: #1f53ff;
+
+              .share {
+                margin-left: 25rpx;
+              }
+
+              .share,
+              .memory {
+                display: flex;
+              }
+            }
+          }
+
+          .middle-row {
+            width: 100%;
+            margin-top: 17rpx;
+            font-size: 32rpx;
+            font-weight: 700;
+            line-height: 45rpx;
+            color: #333333;
+          }
+
+          .bottom-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 22rpx;
+
+            .publish-time {
+              font-size: 24rpx;
+              font-weight: 400;
+              color: #999999;
+            }
+
+            .buttons-1 {
+              width: 177rpx;
+              height: 63rpx;
+              font-size: 28rpx;
+              font-weight: 700;
+              line-height: 63rpx;
+              color: #1f53ff;
+              text-align: center;
+              background: #ffffff;
+              border: 1rpx solid #1f53ff;
+              border-radius: 48rpx;
+            }
+
+            .buttons-2 {
+              display: flex;
+              width: 271rpx;
+              height: 63rpx;
+              overflow: hidden;
+              font-size: 24rpx;
+              font-weight: 700;
+              line-height: 63rpx;
+              color: #ffffff;
+              text-align: center;
+              border-radius: 48rpx;
+
+              .left {
+                flex: 1;
+                background: #1f53ff;
+              }
+
+              .right {
+                flex: 1;
+                background: #ffaa27;
+              }
+            }
+
+            .buttons-3 {
+              width: 177rpx;
+              height: 63rpx;
+              font-size: 28rpx;
+              font-weight: 700;
+              line-height: 63rpx;
+              color: #ffffff;
+              text-align: center;
+              background: #1f53ff;
+              border-radius: 48rpx;
+            }
+          }
+        }
       }
     }
   }

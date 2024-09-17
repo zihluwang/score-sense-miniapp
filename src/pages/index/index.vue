@@ -47,7 +47,7 @@
       <Tabs :tabs="tabs" @change-tab="handleChangeTab" />
       <!-- 列表 -->
       <scroll-view class="exam-list-wrapper" enable-flex scroll-y>
-        <view class="exam-list">
+        <view class="exam-list" v-if="examList.length">
           <view class="exam-list-item" v-for="item in examList" :key="item.id">
             <view class="top-row">
               <view class="pass-num">已有{{ item.users }}人参与</view>
@@ -75,6 +75,14 @@
               <view v-else class="buttons-3">确认报名</view>
             </view>
           </view>
+        </view>
+        <view v-else class="no-data">
+          <image
+            class="no-data-image"
+            src="@/static/images/index/list-no-data.png"
+            mode="scaleToFill"
+          />
+          <text class="tip">试卷整理中～</text>
         </view>
       </scroll-view>
     </view>
@@ -479,6 +487,29 @@ const examList = ref([
               border-radius: 48rpx;
             }
           }
+        }
+      }
+
+      .no-data {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+
+        .no-data-image {
+          width: 335rpx;
+          height: 245rpx;
+          margin-bottom: 25rpx;
+        }
+
+        .tip {
+          font-size: 32rpx;
+          font-weight: 400;
+          line-height: 45rpx;
+          color: #666666;
+          text-align: center;
         }
       }
     }

@@ -34,6 +34,14 @@
     <!-- 列表内容 -->
     <view class="content-wrapper">
       <!-- 公告栏组件 -->
+      <view class="notice-bar">
+        <image class="notice-icon" src="@/static/images/index/notice-icon.png" mode="scaleToFill" />
+        <view class="notice-text">
+          <view class="notice-content">
+            题目持续整理更新中！题目持续整理更新中！题目持续整理更新中！题目持续整理更新中！题目持续整理更新中！题目持续整理更新中！题目持续整理更新中！题目持续整理更新中！题目持续整理更新中！
+          </view>
+        </view>
+      </view>
       <!-- tab栏 -->
       <!-- 列表 -->
     </view>
@@ -57,8 +65,6 @@ const swiperList = ref([
 
 <style scoped lang="scss">
 .index-container {
-  box-sizing: border-box;
-
   // 关闭轮播图的圆角
   :deep(.swiper) {
     .wd-swiper__track {
@@ -68,7 +74,6 @@ const swiperList = ref([
 
   // 小白条
   .white-bar {
-    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -114,10 +119,42 @@ const swiperList = ref([
   }
 
   .content-wrapper {
-    box-sizing: border-box;
     width: 100%;
-    padding: 0 25rpx;
-    background-color: pink;
+    padding: 25rpx;
+
+    .notice-bar {
+      display: flex;
+      align-items: center;
+      height: 30rpx;
+
+      .notice-icon {
+        width: 30rpx;
+        height: 30rpx;
+        margin-right: 10rpx;
+      }
+
+      .notice-text {
+        width: 660rpx;
+        height: 30rpx;
+        overflow: hidden;
+        font-size: 22rpx;
+        line-height: 30rpx;
+        color: #df572b;
+
+        .notice-content {
+          animation: notice 10s linear infinite;
+        }
+      }
+    }
+  }
+}
+
+@keyframes notice {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
   }
 }
 </style>

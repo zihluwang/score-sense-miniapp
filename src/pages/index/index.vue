@@ -43,6 +43,19 @@
         </view>
       </view>
       <!-- tab栏 -->
+      <wd-tabs
+        custom-class="tabs"
+        :slidable-num="5"
+        :map-num="10000"
+        inactiveColor="#999999"
+        v-model:current="tab"
+      >
+        <view v-for="item in tabs" :key="item.id">
+          <wd-tab :title="item.title">
+            <view class="h-0"></view>
+          </wd-tab>
+        </view>
+      </wd-tabs>
       <!-- 列表 -->
     </view>
   </view>
@@ -60,6 +73,24 @@ const swiperList = ref([
   'https://registry.npmmirror.com/wot-design-uni-assets/*/files/panda.jpg',
   'https://registry.npmmirror.com/wot-design-uni-assets/*/files/moon.jpg',
   'https://registry.npmmirror.com/wot-design-uni-assets/*/files/meng.jpg',
+])
+
+const tab = ref<number>(0)
+const tabs = ref([
+  { id: 1, title: '最新' },
+  { id: 2, title: '公务员' },
+  { id: 3, title: '事业单位' },
+  { id: 4, title: '教师' },
+  { id: 5, title: '军队文职' },
+  { id: 6, title: '医疗' },
+  { id: 7, title: '研究生' },
+  { id: 8, title: '选调生' },
+  { id: 9, title: '公安招警' },
+  { id: 10, title: '遴选' },
+  { id: 11, title: '国企' },
+  { id: 12, title: '三支一扶' },
+  { id: 13, title: '书记员' },
+  { id: 14, title: '六项人员' },
 ])
 </script>
 
@@ -126,6 +157,7 @@ const swiperList = ref([
       display: flex;
       align-items: center;
       height: 30rpx;
+      margin-bottom: 25rpx;
 
       .notice-icon {
         width: 30rpx;
@@ -146,7 +178,20 @@ const swiperList = ref([
         }
       }
     }
+
+    :deep(.tabs) {
+      background: transparent !important;
+
+      .wd-tabs__nav {
+        background: transparent !important;
+      }
+    }
   }
+}
+
+.content {
+  line-height: 120px;
+  text-align: center;
 }
 
 @keyframes notice {

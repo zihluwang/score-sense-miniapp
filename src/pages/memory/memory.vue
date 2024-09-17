@@ -117,7 +117,7 @@ const chooseImage = () => {
 <style lang="scss" scoped>
 .memory-container {
   min-height: 100vh;
-  padding: 25rpx 25rpx 162rpx 25rpx;
+  padding: 25rpx 25rpx 187rpx 25rpx;
 
   .card {
     padding: 25rpx;
@@ -252,9 +252,7 @@ const chooseImage = () => {
   align-items: center;
   justify-content: center;
   height: 98rpx;
-  padding-right: 25rpx;
-  padding-bottom: 64rpx;
-  padding-left: 25rpx;
+  padding: 25rpx 25rpx 64rpx 25rpx;
   background: #ffffff;
 
   .cancel {

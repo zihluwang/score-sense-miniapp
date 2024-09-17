@@ -100,7 +100,7 @@ defineOptions({
 
 const toMemoryPage = (id: string | number) => {
   uni.navigateTo({
-    url: '/pages/memory/memory?ud=' + id,
+    url: '/pages/memory/memory?id=' + id,
   })
 }
 

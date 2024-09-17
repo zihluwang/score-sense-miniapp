@@ -11,10 +11,10 @@
   <view class="my-container">
     <view class="info-wrapper">
       <view class="row nickname">昵称：{{ userStore.userInfo.username }}</view>
-      <view class="row phone">手机号：{{ userStore.userInfo.phone }}</view>
+      <view class="row phone">手机号：{{ userStore.userInfo.phoneNumber }}</view>
       <view class="row avatar">
         头像：
-        <image class="avatar-img" :src="userStore.userInfo.avatar" mode="scaleToFill" />
+        <image class="avatar-img" :src="userStore.userInfo.avatarUrl" mode="scaleToFill" />
       </view>
       <view class="row token">token: {{ userStore.userInfo.token }}</view>
     </view>

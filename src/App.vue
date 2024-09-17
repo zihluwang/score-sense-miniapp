@@ -22,6 +22,16 @@ button::after {
   border: none;
 }
 
+page {
+  background-color: #f5f5f5;
+}
+
+view,
+image,
+text {
+  box-sizing: border-box;
+}
+
 swiper,
 scroll-view {
   flex: 1;

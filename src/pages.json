@@ -55,6 +55,10 @@
       }
     },
     {
+      "path": "pages/job-selection/job-selection",
+      "type": "page"
+    },
+    {
       "path": "pages/memory/memory",
       "type": "page",
       "layout": "default",

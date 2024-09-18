@@ -6,6 +6,7 @@
 interface NavigateToOptions {
   url: "/pages/index/index" |
        "/pages/answering/answering" |
+       "/pages/job-selection/job-selection" |
        "/pages/memory/memory" |
        "/pages/my/my" |
        "/pages/score-position/score-position" |

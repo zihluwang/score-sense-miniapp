@@ -16,7 +16,7 @@
         mode="scaleToFill"
       />
       <text class="start-scoring-text">估分后可查看分数排名</text>
-      <button class="start-scoring-button">开始估分</button>
+      <button class="start-scoring-button" @click="start">开始估分</button>
     </view>
     <view class="card">
       <view class="title">估分说明</view>
@@ -40,7 +40,11 @@
 </template>
 
 <script lang="ts" setup>
-//
+const start = () => {
+  uni.navigateTo({
+    url: '/pages/job-selection/job-selection',
+  })
+}
 </script>
 
 <style lang="scss" scoped>

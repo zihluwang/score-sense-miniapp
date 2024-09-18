@@ -70,6 +70,5 @@ const handleTabChange = (item: ITabsItem, index: number) => {
   .line {
     opacity: 1;
   }
-  // background-color: #007aff;
 }
 </style>

@@ -141,6 +141,7 @@ const login = () => {
           userStore.setUserInfo(res)
           hideLoading()
           showToast('登录成功')
+          pageType.value = scoreList.value.length ? 'has-score' : 'no-score'
         } catch (e) {
           showToast('登录失败')
           console.error('登录失败', e)
@@ -171,6 +172,15 @@ const logout = () => {
 const toEstimateScore = () => {
   uni.switchTab({ url: '/pages/index/index' })
 }
+
+onShow(() => {
+  // 每次进到这个页面都要进行判断
+  pageType.value = userStore.isLogin
+    ? scoreList.value.length
+      ? 'has-score'
+      : 'no-score'
+    : 'no-login'
+})
 </script>
 
 <style lang="scss" scoped>

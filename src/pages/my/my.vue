@@ -10,7 +10,19 @@
 <template>
   <view class="my-container">
     <!-- 没登录状态 -->
-    <view v-if="pageType === 'no-login'" class="no-login"></view>
+    <view v-if="pageType === 'no-login'" class="no-login">
+      <view class="image-text">
+        <image
+          class="no-login-image"
+          src="@/static/images/my/estimate-score.png"
+          mode="scaleToFill"
+        />
+        <text class="no-login-text">快去登录吧～</text>
+      </view>
+      <view class="button-row" @click="login">
+        <view class="to-login">登录</view>
+      </view>
+    </view>
     <!-- 登录了但是没有估分信息状态 -->
     <view v-else-if="pageType === 'no-score'" class="no-score">
       <view class="image-text">
@@ -26,7 +38,30 @@
       </view>
     </view>
     <!-- 登录了并且有估分信息状态 -->
-    <view v-else class="has-score"></view>
+    <view v-else class="has-score">
+      <view class="score-list">
+        <view class="score-list-item" v-for="item in scoreList" :key="item.id">
+          <view class="top-row">估分时间：{{ item.time }}</view>
+          <view class="middle-row">{{ item.title }}</view>
+          <view v-if="item.isFinish" class="bottom-row">
+            <view class="score-rank">
+              <view class="score">
+                得分：
+                <text class="blue-text">{{ item.score }}</text>
+              </view>
+              <view class="rank">
+                排名：
+                <text class="blue-text">{{ item.rank }}</text>
+              </view>
+            </view>
+            <view class="check-report-button">查看报告</view>
+          </view>
+          <view v-else class="bottom-row">
+            <view class="continue-button">继续估分</view>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -38,7 +73,57 @@ import { loginReq } from '@/service/login/login'
 const userStore = useUserStore()
 
 type PageType = 'no-login' | 'no-score' | 'has-score'
-const pageType = ref<PageType>('no-score')
+const pageType = ref<PageType>('has-score')
+const scoreList = ref([
+  {
+    id: 1,
+    time: '09月23日 10:30',
+    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+    isFinish: false,
+    score: 0,
+    rank: 0,
+  },
+  {
+    id: 2,
+    time: '09月23日 10:30',
+    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+    isFinish: true,
+    score: 83,
+    rank: 73,
+  },
+  {
+    id: 3,
+    time: '09月23日 10:30',
+    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+    isFinish: true,
+    score: 77,
+    rank: 112,
+  },
+  {
+    id: 4,
+    time: '09月23日 10:30',
+    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+    isFinish: false,
+    score: 0,
+    rank: 0,
+  },
+  {
+    id: 5,
+    time: '09月23日 10:30',
+    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+    isFinish: false,
+    score: 0,
+    rank: 0,
+  },
+  {
+    id: 6,
+    time: '09月23日 10:30',
+    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+    isFinish: false,
+    score: 0,
+    rank: 0,
+  },
+])
 
 /**
  * 一键登录功能
@@ -96,9 +181,7 @@ const toEstimateScore = () => {
 .my-container {
   min-height: 100vh;
 
-  // .no-login {
-  // }
-
+  .no-login,
   .no-score {
     display: flex;
     flex-direction: column;
@@ -113,11 +196,13 @@ const toEstimateScore = () => {
       align-items: center;
       justify-content: center;
 
+      .no-login-image,
       .no-score-image {
         width: 335rpx;
         height: 254rpx;
       }
 
+      .no-login-text,
       .no-score-text {
         font-size: 32rpx;
         font-weight: 400;
@@ -131,6 +216,7 @@ const toEstimateScore = () => {
       height: 85rpx;
       margin-top: 119rpx;
 
+      .to-login,
       .to-score {
         width: 650rpx;
         height: 85rpx;
@@ -145,35 +231,82 @@ const toEstimateScore = () => {
     }
   }
 
-  // .has-score {
-  // }
+  .has-score {
+    min-height: 100vh;
+    padding: 0 25rpx;
+    background-color: #f5f5f5;
 
-  // .info-wrapper {
-  //   margin-bottom: 50rpx;
+    .score-list {
+      padding: 25rpx 0;
 
-  //   .row {
-  //     display: flex;
-  //     align-items: center;
-  //     min-height: 100rpx;
-  //     margin-bottom: 20rpx;
-  //   }
+      .score-list-item {
+        width: 700rpx;
+        height: 225rpx;
+        padding: 25rpx;
+        margin-bottom: 25rpx;
+        background: #ffffff;
+        border-radius: 8rpx;
 
-  //   .avatar {
-  //     .avatar-img {
-  //       width: 100rpx;
-  //       height: 100rpx;
-  //       overflow: hidden;
-  //       border-radius: 50%;
-  //     }
-  //   }
-  // }
+        &:nth-last-child(1) {
+          margin-bottom: 0;
+        }
 
-  // .buttons-wrapper {
-  //   display: flex;
+        .top-row {
+          font-size: 24rpx;
+          font-weight: 400;
+          color: #999999;
+        }
 
-  //   .wd-button {
-  //     flex: 1;
-  //   }
-  // }
+        .middle-row {
+          margin-top: 15rpx;
+          font-size: 28rpx;
+          font-weight: 400;
+          color: #333333;
+        }
+
+        .bottom-row {
+          display: flex;
+          margin-top: 24rpx;
+
+          .check-report-button,
+          .continue-button {
+            width: 177rpx;
+            height: 63rpx;
+            margin-right: 0;
+            margin-left: auto;
+            font-size: 28rpx;
+            font-weight: 500;
+            line-height: 63rpx;
+            color: #ffffff;
+            text-align: center;
+            background: #1f53ff;
+            border-radius: 48rpx;
+          }
+
+          .check-report-button {
+            background-color: #ffaa27;
+          }
+
+          .score-rank {
+            display: flex;
+            align-items: center;
+            font-size: 28rpx;
+            font-weight: 400;
+            color: #333333;
+
+            .score {
+              margin-right: 25rpx;
+            }
+
+            .blue-text {
+              font-size: 28rpx;
+              font-weight: 400;
+              color: #1f53ff;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>

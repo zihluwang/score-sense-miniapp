@@ -72,7 +72,7 @@
                 <view class="left" @click="start">重新估分</view>
                 <view class="right">查看报告</view>
               </view>
-              <view v-else class="buttons-3" @click="start">确认报名</view>
+              <view v-else class="buttons-3" @click="start">开始估分</view>
             </view>
           </view>
         </view>

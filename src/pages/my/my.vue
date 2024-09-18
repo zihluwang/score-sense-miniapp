@@ -12,12 +12,8 @@
     <!-- 没登录状态 -->
     <view v-if="pageType === 'no-login'" class="no-login">
       <view class="image-text">
-        <image
-          class="no-login-image"
-          src="@/static/images/my/estimate-score.png"
-          mode="scaleToFill"
-        />
-        <text class="no-login-text">快去登录吧～</text>
+        <image class="no-login-image" src="@/static/images/my/no-login.png" mode="scaleToFill" />
+        <text class="no-login-text">还未登录哦～</text>
       </view>
       <view class="button-row" @click="login">
         <view class="to-login">登录</view>
@@ -73,7 +69,7 @@ import { loginReq } from '@/service/login/login'
 const userStore = useUserStore()
 
 type PageType = 'no-login' | 'no-score' | 'has-score'
-const pageType = ref<PageType>('has-score')
+const pageType = ref<PageType>('no-login')
 const scoreList = ref([
   {
     id: 1,

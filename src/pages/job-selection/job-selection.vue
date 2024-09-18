@@ -23,13 +23,19 @@
         <image src="@/static/images/job-selection/check-icon.png" mode="scaleToFill" />
         <text>查看职位表</text>
       </view>
-      <view class="button">确定</view>
+      <view class="button" @click="start">确定</view>
     </view>
   </view>
 </template>
 
 <script lang="ts" setup>
 const jobName = ref('')
+
+const start = () => {
+  uni.navigateTo({
+    url: '/pages/answering/answering',
+  })
+}
 </script>
 
 <style lang="scss" scoped>

@@ -9,19 +9,24 @@
 
 <template>
   <view class="my-container">
-    <view class="info-wrapper">
-      <view class="row nickname">昵称：{{ userStore.userInfo.username }}</view>
-      <view class="row phone">手机号：{{ userStore.userInfo.phoneNumber }}</view>
-      <view class="row avatar">
-        头像：
-        <image class="avatar-img" :src="userStore.userInfo.avatarUrl" mode="scaleToFill" />
+    <!-- 没登录状态 -->
+    <view v-if="pageType === 'no-login'" class="no-login"></view>
+    <!-- 登录了但是没有估分信息状态 -->
+    <view v-else-if="pageType === 'no-score'" class="no-score">
+      <view class="image-text">
+        <image
+          class="no-score-image"
+          src="@/static/images/my/estimate-score.png"
+          mode="scaleToFill"
+        />
+        <text class="no-score-text">快去估分吧～</text>
       </view>
-      <view class="row token">token: {{ userStore.userInfo.token }}</view>
+      <view class="button-row" @click="toEstimateScore">
+        <view class="to-score">去估分</view>
+      </view>
     </view>
-    <view class="buttons-wrapper">
-      <wd-button :disabled="userStore.isLogin" @click="login">登录</wd-button>
-      <wd-button :disabled="!userStore.isLogin" type="error" @click="logout">退出登录</wd-button>
-    </view>
+    <!-- 登录了并且有估分信息状态 -->
+    <view v-else class="has-score"></view>
   </view>
 </template>
 
@@ -32,6 +37,12 @@ import { loginReq } from '@/service/login/login'
 
 const userStore = useUserStore()
 
+type PageType = 'no-login' | 'no-score' | 'has-score'
+const pageType = ref<PageType>('no-score')
+
+/**
+ * 一键登录功能
+ */
 const login = () => {
   // 登陆账号
   console.log('登录')
@@ -61,6 +72,9 @@ const login = () => {
   })
 }
 
+/**
+ * 一键退出登录状态
+ */
 const logout = () => {
   // 退出账号登陆
   console.log('退出登录')
@@ -69,39 +83,97 @@ const logout = () => {
   // 通知
   showToast('退出成功')
 }
+
+/**
+ * 点击去估分跳转首页
+ */
+const toEstimateScore = () => {
+  uni.switchTab({ url: '/pages/index/index' })
+}
 </script>
 
 <style lang="scss" scoped>
 .my-container {
-  box-sizing: border-box;
-  padding: 0 25rpx;
+  min-height: 100vh;
 
-  .info-wrapper {
-    margin-bottom: 50rpx;
+  // .no-login {
+  // }
 
-    .row {
+  .no-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+
+    .image-text {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      min-height: 100rpx;
-      margin-bottom: 20rpx;
+      justify-content: center;
+
+      .no-score-image {
+        width: 335rpx;
+        height: 254rpx;
+      }
+
+      .no-score-text {
+        font-size: 32rpx;
+        font-weight: 400;
+        color: #666666;
+        text-align: center;
+      }
     }
 
-    .avatar {
-      .avatar-img {
-        width: 100rpx;
-        height: 100rpx;
-        overflow: hidden;
-        border-radius: 50%;
+    .button-row {
+      width: 650rpx;
+      height: 85rpx;
+      margin-top: 119rpx;
+
+      .to-score {
+        width: 650rpx;
+        height: 85rpx;
+        font-size: 32rpx;
+        font-weight: 400;
+        line-height: 85rpx;
+        color: #ffffff;
+        text-align: center;
+        background: #1f53ff;
+        border-radius: 8rpx;
       }
     }
   }
 
-  .buttons-wrapper {
-    display: flex;
+  // .has-score {
+  // }
 
-    .wd-button {
-      flex: 1;
-    }
-  }
+  // .info-wrapper {
+  //   margin-bottom: 50rpx;
+
+  //   .row {
+  //     display: flex;
+  //     align-items: center;
+  //     min-height: 100rpx;
+  //     margin-bottom: 20rpx;
+  //   }
+
+  //   .avatar {
+  //     .avatar-img {
+  //       width: 100rpx;
+  //       height: 100rpx;
+  //       overflow: hidden;
+  //       border-radius: 50%;
+  //     }
+  //   }
+  // }
+
+  // .buttons-wrapper {
+  //   display: flex;
+
+  //   .wd-button {
+  //     flex: 1;
+  //   }
+  // }
 }
 </style>

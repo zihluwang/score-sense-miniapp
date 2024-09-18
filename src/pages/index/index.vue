@@ -446,14 +446,14 @@ const examList = ref([
             }
 
             .buttons-1 {
+              display: flex;
+              align-items: center;
+              justify-content: center;
               width: 177rpx;
               height: 63rpx;
               font-size: 28rpx;
-              font-weight: 700;
-              line-height: 63rpx;
+              font-weight: 500;
               color: #1f53ff;
-              text-align: center;
-              background: #ffffff;
               border: 1rpx solid #1f53ff;
               border-radius: 48rpx;
             }
@@ -464,31 +464,36 @@ const examList = ref([
               height: 63rpx;
               overflow: hidden;
               font-size: 24rpx;
-              font-weight: 700;
-              line-height: 63rpx;
+              font-weight: 500;
               color: #ffffff;
-              text-align: center;
               border-radius: 48rpx;
 
               .left {
+                display: flex;
                 flex: 1;
+                align-items: center;
+                justify-content: center;
                 background: #1f53ff;
               }
 
               .right {
+                display: flex;
                 flex: 1;
+                align-items: center;
+                justify-content: center;
                 background: #ffaa27;
               }
             }
 
             .buttons-3 {
+              display: flex;
+              align-items: center;
+              justify-content: center;
               width: 177rpx;
               height: 63rpx;
               font-size: 28rpx;
-              font-weight: 700;
-              line-height: 63rpx;
+              font-weight: 500;
               color: #ffffff;
-              text-align: center;
               background: #1f53ff;
               border-radius: 48rpx;
             }

@@ -69,10 +69,10 @@
               <view class="publish-time">上线时间：{{ item.publishTime }}</view>
               <view v-if="item.type === 1" class="buttons-1">预约估分</view>
               <view v-else-if="item.type === 2" class="buttons-2">
-                <view class="left">重新估分</view>
+                <view class="left" @click="start">重新估分</view>
                 <view class="right">查看报告</view>
               </view>
-              <view v-else class="buttons-3">确认报名</view>
+              <view v-else class="buttons-3" @click="start">确认报名</view>
             </view>
           </view>
         </view>
@@ -271,6 +271,13 @@ const examList = ref([
     type: 1,
   },
 ])
+
+const start = () => {
+  console.log('开始估分')
+  uni.navigateTo({
+    url: '/pages/start-scoring/start-scoring',
+  })
+}
 </script>
 
 <style scoped lang="scss">

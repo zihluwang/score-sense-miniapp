@@ -56,7 +56,11 @@
     },
     {
       "path": "pages/job-selection/job-selection",
-      "type": "page"
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "估分职位"
+      }
     },
     {
       "path": "pages/memory/memory",

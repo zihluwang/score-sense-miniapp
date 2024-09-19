@@ -70,7 +70,7 @@
               <view v-if="item.type === 1" class="buttons-1">预约估分</view>
               <view v-else-if="item.type === 2" class="buttons-2">
                 <view class="left" @click="start">重新估分</view>
-                <view class="right">查看报告</view>
+                <view class="right" @click="report">查看报告</view>
               </view>
               <view v-else class="buttons-3" @click="start">开始估分</view>
             </view>
@@ -272,10 +272,23 @@ const examList = ref([
   },
 ])
 
+/**
+ * 点击开始估分/重新估分跳转估分页面
+ */
 const start = () => {
   console.log('开始估分')
   uni.navigateTo({
     url: '/pages/start-scoring/start-scoring',
+  })
+}
+
+/**
+ * 点击查看报告跳转报告页面
+ */
+const report = () => {
+  console.log('查看报告')
+  uni.navigateTo({
+    url: '/pages/score-report/score-report',
   })
 }
 </script>

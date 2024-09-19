@@ -50,7 +50,7 @@
                 <text class="blue-text">{{ item.rank }}</text>
               </view>
             </view>
-            <view class="check-report-button">查看报告</view>
+            <view class="check-report-button" @click="report">查看报告</view>
           </view>
           <view v-else class="bottom-row">
             <view class="continue-button">继续估分</view>
@@ -171,6 +171,16 @@ const logout = () => {
  */
 const toEstimateScore = () => {
   uni.switchTab({ url: '/pages/index/index' })
+}
+
+/**
+ * 点击查看报告跳转报告页面
+ */
+const report = () => {
+  console.log('查看报告')
+  uni.navigateTo({
+    url: '/pages/score-report/score-report',
+  })
 }
 
 onShow(() => {

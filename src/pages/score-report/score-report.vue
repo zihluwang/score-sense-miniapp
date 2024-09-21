@@ -89,7 +89,7 @@
   </view>
   <view class="fixed-bottom-row">
     <view class="fixed-bottom-row__btn">查看解析</view>
-    <view class="fixed-bottom-row__btn">查看排名</view>
+    <view class="fixed-bottom-row__btn" @click="toRanking">查看排名</view>
   </view>
 </template>
 
@@ -152,6 +152,12 @@ onReady(() => {
     chartData.value = JSON.parse(JSON.stringify(res))
   }, 500)
 })
+
+const toRanking = () => {
+  uni.navigateTo({
+    url: '/pages/score-ranking/score-ranking',
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -374,6 +380,7 @@ onReady(() => {
     }
   }
 }
+
 .fixed-bottom-row {
   position: fixed;
   right: 0;

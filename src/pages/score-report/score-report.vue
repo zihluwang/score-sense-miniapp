@@ -62,6 +62,9 @@
         <image src="@/static/images/score-report/chart-icon.png" mode="scaleToFill" />
         试卷估分分布图
       </view>
+      <view class="chart">
+        <qiun-data-charts type="area" :opts="opts" :chartData="chartData" />
+      </view>
     </view>
     <view class="card">
       <view class="title">
@@ -90,7 +93,66 @@
   </view>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref, reactive } from 'vue'
+import { onReady } from '@dcloudio/uni-app'
+
+const categories1 = []
+const data1 = []
+
+for (let i = 0; i < 101; i++) {
+  categories1.push(i + '')
+  data1.push(Math.random() * 100)
+}
+
+const chartData = ref({
+  categories: categories1,
+  series: [
+    {
+      name: '成交量A',
+      data: data1,
+    },
+  ],
+})
+
+const opts = reactive({
+  padding: [15, 15, 0, 0], // 控制图标的缩进
+  dataLabel: false, // 关闭数据点的文案
+  dataPointShape: false, // 关闭数据点的形状
+  xAxis: {
+    labelCount: 6,
+  },
+  yAxis: {
+    gridType: 'solid',
+  },
+  legend: {
+    show: false, // 关闭图例
+  },
+  extra: {
+    area: {
+      type: 'curve',
+      addLine: true,
+      gradient: true,
+    },
+  },
+})
+
+onReady(() => {
+  setTimeout(() => {
+    // 模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+    const res = {
+      categories: categories1,
+      series: [
+        {
+          name: '成交量A',
+          data: data1,
+        },
+      ],
+    }
+    chartData.value = JSON.parse(JSON.stringify(res))
+  }, 500)
+})
+</script>
 
 <style lang="scss" scoped>
 .score-report-container {
@@ -257,8 +319,12 @@
       }
     }
 
-    // &:nth-child(2) {
-    // }
+    &:nth-child(2) {
+      .chart {
+        width: 100%;
+        height: 400rpx;
+      }
+    }
 
     &:nth-child(3) {
       position: relative;

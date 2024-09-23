@@ -95,8 +95,8 @@
       </scroll-view>
     </view>
     <!-- 分享卡片 -->
-    <wd-action-sheet v-model="show" title="分享">
-      <view class="flex justify-center items-center">
+    <wd-action-sheet v-model="show" title="分享" :safe-area-inset-bottom="false">
+      <view class="flex justify-center items-center pb-20rpx">
         <view
           class="item flex flex-col justify-center items-center mr-102rpx"
           @click.stop="handleClickShareItem('friend')"
@@ -736,5 +736,9 @@ onLoad(async () => {
   to {
     transform: translateX(-100%);
   }
+}
+
+:deep(.wd-action-sheet__close) {
+  display: none !important;
 }
 </style>

@@ -35,7 +35,7 @@
           />
         </wd-col-picker>
       </view>
-      <view class="share-button">
+      <view class="share-button" @click.stop="handleClickShare('page')">
         <image class="share-icon" src="@/static/images/index/share-icon.png" mode="scaleToFill" />
         <text class="share-text">分享好友</text>
       </view>
@@ -64,7 +64,7 @@
                   我来回忆
                   <wd-icon name="arrow-right" size="32rpx"></wd-icon>
                 </view>
-                <view class="share">
+                <view class="share" @click.stop="handleClickShare('topic', item.id)">
                   分享
                   <wd-icon name="arrow-right" size="32rpx"></wd-icon>
                 </view>
@@ -94,6 +94,44 @@
         </view>
       </scroll-view>
     </view>
+    <!-- 分享卡片 -->
+    <wd-action-sheet v-model="show" title="分享">
+      <view class="flex justify-center items-center">
+        <view
+          class="item flex flex-col justify-center items-center mr-102rpx"
+          @click.stop="handleClickShareItem('friend')"
+        >
+          <image
+            class="w-80rpx h-80rpx rounded-50% overflow-hidden mb-18rpx"
+            src="@/static/images/index/share_friend.png"
+            mode="scaleToFill"
+          />
+          <text class="text-[#666666] text-24rpx">分享好友</text>
+        </view>
+        <view
+          class="item flex flex-col justify-center items-center"
+          @click.stop="handleClickShareItem('timeline')"
+        >
+          <image
+            class="w-80rpx h-80rpx rounded-50% overflow-hidden mb-18rpx"
+            src="@/static/images/index/share_timeline.png"
+            mode="scaleToFill"
+          />
+          <text class="text-[#666666] text-24rpx">分享朋友圈</text>
+        </view>
+        <view
+          class="item flex flex-col justify-center items-center ml-102rpx"
+          @click.stop="handleClickShareItem('image')"
+        >
+          <image
+            class="w-80rpx h-80rpx rounded-50% overflow-hidden mb-18rpx"
+            src="@/static/images/index/share_image.png"
+            mode="scaleToFill"
+          />
+          <text class="text-[#666666] text-24rpx">分享海报</text>
+        </view>
+      </view>
+    </wd-action-sheet>
   </view>
 </template>
 
@@ -349,6 +387,24 @@ const report = () => {
   uni.navigateTo({
     url: '/pages/score-report/score-report',
   })
+}
+
+// 控制分享面板显示隐藏
+const show = ref(false)
+const handleClickShare = (type: 'page | topic', id?: number) => {
+  show.value = true
+  // TODO: 更新值，用于在点击分享的时候分享对应的数据
+}
+
+// 真正实现分享的函数
+const handleClickShareItem = (type: 'friend' | 'timeline' | 'image') => {
+  if (type === 'image') {
+    console.log('准备制作进行分享')
+  } else if (type === 'friend') {
+    console.log('准备分享至好友列表')
+  } else {
+    console.log('准备分享至朋友圈')
+  }
 }
 
 onLoad(async () => {

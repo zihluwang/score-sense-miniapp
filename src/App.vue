@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
 import { useDeviceStore } from '@/store/device'
+import { useDivisionStore } from './store/divisions'
 
 const deviceStore = useDeviceStore()
+const divisionStore = useDivisionStore()
 
 onLaunch(() => {
   console.log('App Launch')
   deviceStore.getInfo()
+  divisionStore.getDivisions()
 })
 onShow(() => {
   console.log('App Show')

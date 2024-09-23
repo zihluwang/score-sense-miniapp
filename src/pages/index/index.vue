@@ -19,13 +19,21 @@
     ></wd-swiper>
     <!-- 小白条 -->
     <view class="white-bar">
-      <view class="location-name">
-        <text class="location-text">浙江省</text>
-        <image
-          class="location-icon"
-          src="@/static/images/index/location-more-icon.png"
-          mode="scaleToFill"
-        />
+      <view class="location-name" @click.stop="handleClickLocation">
+        <wd-col-picker
+          :use-default-slot="true"
+          v-model="location"
+          :columns="columns"
+          :column-change="columnChange"
+          @confirm="handleSelectConfirm"
+        >
+          <text class="location-text">{{ displayLocationText }}</text>
+          <image
+            class="location-icon"
+            src="@/static/images/index/location-more-icon.png"
+            mode="scaleToFill"
+          />
+        </wd-col-picker>
       </view>
       <view class="share-button">
         <image class="share-icon" src="@/static/images/index/share-icon.png" mode="scaleToFill" />
@@ -91,6 +99,7 @@
 
 <script lang="ts" setup>
 import Tabs from '@/components/Tabs/Tabs.vue'
+import { useDivisionStore } from '@/store/divisions'
 import { ITabsItem } from '@/types/index/tabs'
 import { showLoading, hideLoading } from '@/utils/toast'
 
@@ -112,6 +121,56 @@ const swiperList = ref([
   'https://registry.npmmirror.com/wot-design-uni-assets/*/files/moon.jpg',
   'https://registry.npmmirror.com/wot-design-uni-assets/*/files/meng.jpg',
 ])
+
+const divisionStore = useDivisionStore()
+const location = ref<string[]>([]) // 当前位置
+const displayLocationText = ref<string>('') // 是否显示位置弹框
+const columns = ref([]) // 省市列表初始值
+
+// 处理数据为适合 picker-view 的格式
+const initColumns = () => {
+  const provinces = divisionStore.divisions.map((province) => ({
+    label: province.name,
+    value: province.code,
+  }))
+  columns.value = [provinces]
+}
+
+// 选中选项之后的处理逻辑
+const columnChange = ({ selectedItem, resolve, finish }) => {
+  const areaData = divisionStore.divisions.find(
+    (item) => item.code === selectedItem.value,
+  )?.prefectures
+  if (areaData && areaData.length) {
+    resolve(
+      areaData.map((item) => {
+        return {
+          value: item.code,
+          label: item.name,
+        }
+      }),
+    )
+  } else {
+    finish()
+  }
+}
+
+// 选择完省市之后的确认逻辑
+const handleSelectConfirm = ({ value }) => {
+  // 拿到code获取对应文本
+  const province = divisionStore.divisions.find((item) => item.code === value[0])
+  const city = province?.prefectures.find((item) => item.code === value[1])
+  // 更新数据
+  location.value = value
+  displayLocationText.value = `${province?.name}${city?.name}`
+  // TODO: 通过接口更新考试列表
+}
+
+const picker = ref(null)
+const handleClickLocation = () => {
+  // 打开 picker 弹框
+  picker?.value?.open()
+}
 
 const tabs = ref<ITabsItem[]>([
   { id: 1, title: '最新' },
@@ -291,6 +350,18 @@ const report = () => {
     url: '/pages/score-report/score-report',
   })
 }
+
+onLoad(async () => {
+  // 页面初始化的时候更新省市列表数据
+  await divisionStore.getDivisions()
+  // 更新数据之后初始化地理位置
+  location.value = ['11', '1101']
+  const province = divisionStore.divisions.find((item) => item.code === location.value[0])
+  const city = province?.prefectures.find((item) => item.code === location.value[1])
+  displayLocationText.value = `${province?.name}${city?.name}`
+  // 初始化省市列表
+  initColumns()
+})
 </script>
 
 <style scoped lang="scss">

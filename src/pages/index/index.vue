@@ -52,7 +52,7 @@
         </view>
       </view>
       <!-- tab栏 -->
-      <Tabs :tabs="tabs" @change-tab="handleChangeTab" />
+      <Tabs :tabs="examTypesLst" @change-tab="handleChangeTab" />
       <!-- 列表 -->
       <scroll-view class="exam-list-wrapper" enable-flex scroll-y>
         <view class="exam-list" v-if="examList.length">
@@ -137,9 +137,10 @@
 
 <script lang="ts" setup>
 import Tabs from '@/components/Tabs/Tabs.vue'
+import { getExamListReq, getExamTypeListReq, getSwiperListReq } from '@/service/index'
 import { useDivisionStore } from '@/store/divisions'
 import { ITabsItem } from '@/types/index/tabs'
-import { showLoading, hideLoading } from '@/utils/toast'
+import { showLoading, hideLoading, showToast } from '@/utils/toast'
 
 defineOptions({
   name: 'Home',
@@ -160,13 +161,23 @@ const swiperList = ref([
   'https://registry.npmmirror.com/wot-design-uni-assets/*/files/meng.jpg',
 ])
 
+const getSwiperList = async () => {
+  try {
+    const res = await getSwiperListReq()
+    console.log('获取轮播图列表成功', res)
+  } catch (e) {
+    showToast('获取轮播图列表失败')
+    console.log('获取轮播图列表失败', e)
+  }
+}
+
 const divisionStore = useDivisionStore()
 const location = ref<string[]>([]) // 当前位置
 const displayLocationText = ref<string>('') // 是否显示位置弹框
 const columns = ref([]) // 省市列表初始值
 
 // 处理数据为适合 picker-view 的格式
-const initColumns = () => {
+const initColumns = async () => {
   const provinces = divisionStore.divisions.map((province) => ({
     label: province.name,
     value: province.code,
@@ -210,7 +221,7 @@ const handleClickLocation = () => {
   picker?.value?.open()
 }
 
-const tabs = ref<ITabsItem[]>([
+const examTypesLst = ref<ITabsItem[]>([
   { id: 1, title: '最新' },
   { id: 2, title: '公务员' },
   { id: 3, title: '事业单位' },
@@ -226,6 +237,20 @@ const tabs = ref<ITabsItem[]>([
   { id: 13, title: '书记员' },
   { id: 14, title: '六项人员' },
 ])
+
+/**
+ * 获取考试类型列表
+ */
+const getExamTypeList = async () => {
+  try {
+    const res = await getExamTypeListReq()
+    console.log('获取考试类型列表成功', res)
+  } catch (e) {
+    showToast('获取考试类型列表失败')
+    console.log('获取考试类型列表失败', e)
+  }
+}
+
 const handleChangeTab = (tab: ITabsItem, currentTab: string, index: number) => {
   console.log(tab)
   console.log(currentTab)
@@ -233,8 +258,9 @@ const handleChangeTab = (tab: ITabsItem, currentTab: string, index: number) => {
   showLoading()
   examList.value = []
 
-  setTimeout(() => {
+  setTimeout(async () => {
     hideLoading()
+    await getExamList(tab.id)
     examList.value = [
       {
         id: 1,
@@ -370,6 +396,20 @@ const examList = ref([
 ])
 
 /**
+ * 获取考试列表
+ * @param typeId 考试类型id
+ */
+const getExamList = async (typeId: number) => {
+  try {
+    const res = await getExamListReq(typeId)
+    console.log('获取考试列表成功', res)
+  } catch (e) {
+    showToast('获取考试列表失败')
+    console.log('获取考试列表失败', e)
+  }
+}
+
+/**
  * 点击开始估分/重新估分跳转估分页面
  */
 const start = () => {
@@ -408,6 +448,10 @@ const handleClickShareItem = (type: 'friend' | 'timeline' | 'image') => {
 }
 
 onLoad(async () => {
+  // 显示加载
+  showLoading()
+  // 页面初始化的时候获取轮播图
+  await getSwiperList()
   // 页面初始化的时候更新省市列表数据
   await divisionStore.getDivisions()
   // 更新数据之后初始化地理位置
@@ -416,7 +460,13 @@ onLoad(async () => {
   const city = province?.prefectures.find((item) => item.code === location.value[1])
   displayLocationText.value = `${province?.name}${city?.name}`
   // 初始化省市列表
-  initColumns()
+  await initColumns()
+  // 获取考试分类
+  await getExamTypeList()
+  // 获取考试列表
+  await getExamList(examList.value[0].id)
+  // 关闭加载
+  hideLoading()
 })
 </script>
 

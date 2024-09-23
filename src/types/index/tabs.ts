@@ -1,4 +1,4 @@
 export interface ITabsItem {
-  id: number | string
+  id: number
   title: string
 }

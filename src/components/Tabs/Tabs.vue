@@ -1,5 +1,11 @@
 <template>
-  <scroll-view scroll-x class="tab-bar" :scroll-into-view="currentTab" scroll-with-animation>
+  <scroll-view
+    enable-flex
+    scroll-x
+    class="tab-bar"
+    :scroll-into-view="currentTab"
+    scroll-with-animation
+  >
     <view
       v-for="(tab, index) in tabs"
       :key="index"

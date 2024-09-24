@@ -2,7 +2,7 @@
 {
   layout: 'default',
   style: {
-    navigationBarTitleText: '答题页面',
+    navigationBarTitleText: '在线估分',
   },
 }
 </route>

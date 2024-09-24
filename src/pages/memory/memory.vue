@@ -76,13 +76,22 @@
       </view>
     </view>
   </view>
-  <view class="fixed-bottom-area">
+  <view
+    class="fixed-bottom-area"
+    :style="{
+      paddingBottom: deviceStore.safeAreaInsets.bottom ? '64rpx' : '25rpx',
+    }"
+  >
     <view class="cancel">取消</view>
     <view class="submit">提交</view>
   </view>
 </template>
 
 <script lang="ts" setup>
+import { useDeviceStore } from '@/store'
+
+const deviceStore = useDeviceStore()
+
 const formData = reactive({
   topicNumber: '',
   topicTitle: '',
@@ -252,7 +261,7 @@ const chooseImage = () => {
   align-items: center;
   justify-content: center;
   height: 98rpx;
-  padding: 25rpx 25rpx 64rpx 25rpx;
+  padding: 25rpx 25rpx 0 25rpx;
   background: #ffffff;
 
   .cancel {

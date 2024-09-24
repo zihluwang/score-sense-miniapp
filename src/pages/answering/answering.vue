@@ -53,10 +53,12 @@
           <view class="choices mt-25rpx">
             <view
               class="item h-96rpx bg-#f8f8f8 rounded-4rpx py-25rpx px-30rpx mb-20rpx flex items-center"
-              v-for="(item2, index) in item.options"
+              :class="{ active: item.choose.includes(item2) }"
+              v-for="(item2, index2) in item.options"
               :key="item2"
+              @click="choose(index, item2)"
             >
-              <view class="text-30rpx text-#333333 mr-25rpx">{{ choices[index] }}</view>
+              <view class="text-30rpx text-#333333 mr-25rpx">{{ choices[index2] }}</view>
               <view
                 class="h-30rpx text-30rpx text-#999999 mr-25rpx"
                 style="border-right: 2rpx solid #999999"
@@ -138,31 +140,32 @@ import topicList from './data.json'
 
 const deviceStore = useDeviceStore()
 
-// 选项
+// 选项的字母
 const choices = ref('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
+// 题目列表
+const topics = ref([...topicList])
 // 判断现在这张试卷是否已经作答完成
 const isExamAnswerFinish = computed(() => nth.value >= topicList.length)
 // 当前题目的类型
+const type = computed(() => topics.value[nth.value - 1].type || -1)
+// 当前题目的类型显示文本
 const currentExamType = computed(() => {
-  const type = topics.value[nth.value - 1].type
-  if (type === 1) {
+  if (type.value === 1) {
     return '单选'
-  } else if (type === 2) {
+  } else if (type.value === 2) {
     return '多选'
   } else {
     return '判断'
   }
 })
-// 题目列表
-const topics = ref([...topicList])
+
 // 下一个index（下标计算）
 const newIndex = ref(0)
 // 当前第几题(下标计算)
 const nth = ref(1)
 // 移动的距离（通过下标计算）
 const translateX = ref(0)
-
 const rightOne = () => {
   translateX.value = translateX.value - 750
   newIndex.value = newIndex.value + 1
@@ -194,11 +197,39 @@ const touchEnd = (e, index) => {
     leftOne()
   }
 }
+
+const choose = (index, choice) => {
+  const topic = topics.value[index]
+  if (topic) {
+    if (topic.type === 1 || topic.type === 3) {
+      // 单选、判断都是单选，先把原来的数据删掉再重新添加数据
+      topic.choose = []
+      topic.choose.push(choice)
+      // 下一题(如果已经是最后一题就不运行)
+      if (nth.value < topics.value.length) {
+        rightOne()
+      }
+    }
+    if (topic.type === 2) {
+      // 多选
+      const isExist = topic.choose.some((item) => item === choice)
+      if (isExist) {
+        // 如果存在，则删除
+        topic.choose = topic.choose.filter((item) => item !== choice)
+      } else {
+        // 如果不存在，则添加
+        topic.choose.push(choice)
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .choices {
   .item {
+    border: 2rpx solid #f8f8f8;
+
     &.active {
       background-color: #e8f0ff !important;
       border: 2rpx solid #487ef7 !important;

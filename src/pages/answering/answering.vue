@@ -120,6 +120,7 @@
       <view
         v-show="isExamAnswerFinish"
         class="item flex flex-col items-center justify-between ml-170rpx"
+        @click="submit"
       >
         <image
           class="w-44rpx h-44rpx"
@@ -130,14 +131,17 @@
       </view>
     </view>
   </view>
-  <!-- <wd-watermark content="公途公考·估分助手" :width="130" :height="130"></wd-watermark> -->
+  <!-- <wd-watermark content="公途公考·估分助手" :width="130" :height="130" :z-index="10"></wd-watermark> -->
 </template>
 
 <script lang="ts" setup>
 import { useDeviceStore } from '@/store/device'
 import { ref } from 'vue'
 import topicList from './data.json'
+import { useMessage } from '@/uni_modules/wot-design-uni'
+import { showLoading } from '@/utils/toast'
 
+const message = useMessage()
 const deviceStore = useDeviceStore()
 
 // 选项的字母
@@ -224,6 +228,41 @@ const choose = (index, choice) => {
         topic.choose.push(choice)
       }
     }
+  }
+}
+
+const submitExam = async () => {
+  showLoading()
+  setTimeout(() => {
+    uni.hideLoading()
+    uni.redirectTo({
+      url: '/pages/score-report/score-report',
+    })
+  }, 3000)
+}
+
+const submit = async () => {
+  // 判断是否有未答的题目
+  const unAnsweredTopics = topics.value.filter((item) => item.choose.length === 0)
+  if (unAnsweredTopics.length > 0) {
+    uni.showModal({
+      title: '提示',
+      content: `您还有${unAnsweredTopics.length}道题目未作答，提交后将无法重新进行估分，确认要提交答案吗？`,
+      confirmText: '继续答题',
+      confirmColor: '#1F53FF',
+      cancelText: '确认',
+      success: async function (res) {
+        if (res.confirm) {
+          console.log('用户点击继续答题')
+        } else if (res.cancel) {
+          console.log('用户点击确认')
+          await submitExam()
+        }
+      },
+    })
+  } else {
+    // 发请求提交答案
+    await submitExam()
   }
 }
 </script>

@@ -32,7 +32,7 @@
 const jobName = ref('')
 
 const start = () => {
-  uni.navigateTo({
+  uni.redirectTo({
     url: '/pages/answering/answering',
   })
 }

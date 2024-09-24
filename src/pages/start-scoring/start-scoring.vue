@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 const start = () => {
-  uni.navigateTo({
+  uni.redirectTo({
     url: '/pages/job-selection/job-selection',
   })
 }

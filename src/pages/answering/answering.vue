@@ -97,7 +97,7 @@
         />
         <text class="text-24rpx text-#333333 mt-4rpx">上一题</text>
       </view>
-      <view class="item flex flex-col items-center justify-between">
+      <view class="item flex flex-col items-center justify-between" @click="show = true">
         <image
           class="w-44rpx h-44rpx"
           src="@/static/images/answering/sheet-icon.png"
@@ -120,7 +120,7 @@
       <view
         v-show="isExamAnswerFinish"
         class="item flex flex-col items-center justify-between ml-170rpx"
-        @click="submit"
+        @click="show = true"
       >
         <image
           class="w-44rpx h-44rpx"
@@ -132,16 +132,53 @@
     </view>
   </view>
   <!-- <wd-watermark content="公途公考·估分助手" :width="130" :height="130" :z-index="10"></wd-watermark> -->
+  <wd-action-sheet v-model="show" title="答题卡" :safe-area-inset-bottom="false">
+    <view
+      class="px-25rpx"
+      :style="{
+        height: deviceStore.safeAreaInsets.bottom ? '1064rpx' : '1025rpx',
+        paddingBottom: deviceStore.safeAreaInsets.bottom ? '64rpx' : '25rpx',
+      }"
+    >
+      <view class="h-55rpx pb-25rpx flex items-center justify-end">
+        <view class="flex center mr-15rpx">
+          <view class="w-15rpx h-15rpx rounded-50% bg-#1F53FF mr-10rpx" />
+          <view class="text-22rpx text-#999999">已答</view>
+        </view>
+        <view class="flex center">
+          <view class="w-15rpx h-15rpx rounded-50% bg-#eeeeee mr-10rpx" />
+          <view class="text-22rpx text-#999999">未答</view>
+        </view>
+      </view>
+      <view class="h-835rpx overflow-y-auto overflow-x-hidden">
+        <view class="text-24rpx text-#333333 mb-40rpx">一、单项选择题</view>
+        <view class="grid grid-cols-5 gap-63rpx">
+          <view
+            class="topic-item w-90rpx h-90rpx rounded-50% bg-#eeeeee flex center"
+            :class="{ active: item.choose.length > 0 }"
+            v-for="(item, index) in topics"
+            :key="item.id"
+            @click="jumpToTopic(index)"
+          >
+            {{ item.index }}
+          </view>
+        </view>
+      </view>
+      <view class="h-110rpx pt-25rpx bg-white">
+        <view class="h-85rpx bg-#1F53FF flex center text-32rpx text-white" @click="submit">
+          提交试卷
+        </view>
+      </view>
+    </view>
+  </wd-action-sheet>
 </template>
 
 <script lang="ts" setup>
 import { useDeviceStore } from '@/store/device'
 import { ref } from 'vue'
 import topicList from './data.json'
-import { useMessage } from '@/uni_modules/wot-design-uni'
 import { showLoading } from '@/utils/toast'
 
-const message = useMessage()
 const deviceStore = useDeviceStore()
 
 // 选项的字母
@@ -265,6 +302,19 @@ const submit = async () => {
     await submitExam()
   }
 }
+
+// 控制答题卡显示隐藏
+const show = ref(false)
+// 点击题号跳转至对应的题目
+const jumpToTopic = (index) => {
+  // 关闭答题卡
+  show.value = false
+  // 跳转至对应的题目
+  const moveX = index * -750
+  translateX.value = moveX
+  newIndex.value = index
+  nth.value = index + 1
+}
 </script>
 
 <style lang="scss" scoped>
@@ -282,6 +332,13 @@ const submit = async () => {
 .exam-item {
   &:nth-last-child(1) {
     margin-right: 0 !important;
+  }
+}
+
+.topic-item {
+  &.active {
+    color: #fff !important;
+    background-color: #1f53ff !important;
   }
 }
 </style>

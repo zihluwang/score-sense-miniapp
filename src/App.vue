@@ -26,6 +26,10 @@ page {
   background-color: #f5f5f5;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 view,
 image,
 text,

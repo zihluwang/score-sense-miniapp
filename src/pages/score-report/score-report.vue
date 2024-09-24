@@ -14,6 +14,7 @@
         class="restart-icon"
         src="@/static/images/score-report/restart-icon.png"
         mode="scaleToFill"
+        @click="restartExam"
       />
       <view class="score-row">
         <text class="score-text">99</text>
@@ -100,7 +101,12 @@
       </view>
     </view>
   </view>
-  <view class="fixed-bottom-row">
+  <view
+    class="fixed-bottom-row"
+    :style="{
+      paddingBottom: deviceStore.safeAreaInsets.bottom ? '64rpx' : '25rpx',
+    }"
+  >
     <view class="fixed-bottom-row__btn">查看解析</view>
     <view class="fixed-bottom-row__btn" @click="toRanking">查看排名</view>
   </view>
@@ -110,20 +116,18 @@
 import { ref, reactive } from 'vue'
 import { onReady } from '@dcloudio/uni-app'
 import topicList from '../answering/data.json'
+import { useDeviceStore } from '@/store'
 
-const categories1 = []
-const data1 = []
+const deviceStore = useDeviceStore()
 
-for (let i = 0; i < 101; i++) {
-  categories1.push(i + '')
-  data1.push(Math.random() * 100)
-}
+const categories1 = [0, 20, 40, 60, 80, 100]
+const data1 = [7, 22, 18, 28, 15, 17]
 
 const chartData = ref({
   categories: categories1,
   series: [
     {
-      name: '成交量A',
+      name: '分布比例',
       data: data1,
     },
   ],
@@ -133,9 +137,6 @@ const opts = reactive({
   padding: [15, 15, 0, 0], // 控制图标的缩进
   dataLabel: false, // 关闭数据点的文案
   dataPointShape: false, // 关闭数据点的形状
-  xAxis: {
-    labelCount: 6,
-  },
   yAxis: {
     gridType: 'solid',
   },
@@ -166,6 +167,12 @@ onReady(() => {
     chartData.value = JSON.parse(JSON.stringify(res))
   }, 500)
 })
+
+const restartExam = () => {
+  uni.navigateTo({
+    url: '/pages/start-scoring/start-scoring',
+  })
+}
 
 const toRanking = () => {
   uni.navigateTo({
@@ -406,7 +413,7 @@ const topics = ref([...topicList])
   z-index: 99;
   display: flex;
   align-items: center;
-  padding: 25rpx 25rpx 64rpx 25rpx;
+  padding: 25rpx 25rpx 0 25rpx;
   background-color: #fff;
 
   .fixed-bottom-row__btn {

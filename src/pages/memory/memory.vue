@@ -82,13 +82,14 @@
       paddingBottom: deviceStore.safeAreaInsets.bottom ? '64rpx' : '25rpx',
     }"
   >
-    <view class="cancel">取消</view>
-    <view class="submit">提交</view>
+    <view class="cancel" @click="cancel">取消</view>
+    <view class="submit" @click="confirm">提交</view>
   </view>
 </template>
 
 <script lang="ts" setup>
 import { useDeviceStore } from '@/store'
+import { hideLoading, showLoading, showToast } from '@/utils/toast'
 
 const deviceStore = useDeviceStore()
 
@@ -120,6 +121,38 @@ const chooseImage = () => {
       })
     },
   })
+}
+
+const cancel = () => {
+  uni.navigateBack()
+}
+
+const confirm = async () => {
+  // 判断题号给了没
+  if (!formData.topicNumber) {
+    showToast('请填写题号')
+    return
+  }
+  // 判断题干给了没
+  if (!formData.topicTitle) {
+    showToast('请填写题干')
+    return
+  }
+  // 提交数据
+  try {
+    // TODO: 提交数据
+    showLoading()
+    setTimeout(() => {
+      hideLoading()
+      showToast('提交成功')
+    }, 3000)
+    setTimeout(() => {
+      uni.navigateBack()
+    }, 5000)
+  } catch (error) {
+    showToast('提交失败')
+    console.log('🚀 ~ confirm ~ error:', error)
+  }
 }
 </script>
 

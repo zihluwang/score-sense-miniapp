@@ -11,7 +11,7 @@
   <view
     class="score-ranking-container"
     :style="{
-      background: `url('${scoreRankingBg}') no-repeat`,
+      background: `url('${bgBase64}') no-repeat`,
       backgroundSize: '100% 100%',
     }"
   >
@@ -20,7 +20,7 @@
         <view
           class="item second"
           :style="{
-            background: `url('${second}') no-repeat`,
+            background: `url('${secondBase64}') no-repeat`,
             backgroundSize: '100% 100%',
           }"
         >
@@ -34,7 +34,7 @@
         <view
           class="item first"
           :style="{
-            background: `url('${first}') no-repeat`,
+            background: `url('${firstBase64}') no-repeat`,
             backgroundSize: '100% 100%',
           }"
         >
@@ -48,7 +48,7 @@
         <view
           class="item third"
           :style="{
-            background: `url('${third}') no-repeat`,
+            background: `url('${thirdBase64}') no-repeat`,
             backgroundSize: '100% 100%',
           }"
         >
@@ -61,7 +61,7 @@
         </view>
       </view>
       <view class="ranking-list-wrapper">
-        <view class="item" v-for="item in rankList" :key="item.id">
+        <view class="item" v-for="item in rankList" :key="item.rank">
           <view class="rank">{{ item.rank }}</view>
           <image class="avatar" :src="item.avatar" mode="scaleToFill" />
           <view class="username">{{ item.name }}</view>
@@ -89,6 +89,18 @@ import scoreRankingBg from '@/static/images/score-ranking/ranking-bg.png'
 import first from '@/static/images/score-ranking/first.png'
 import second from '@/static/images/score-ranking/second.png'
 import third from '@/static/images/score-ranking/third.png'
+
+const bgBase64 =
+  'data:image/png;base64,' + uni.getFileSystemManager().readFileSync(scoreRankingBg, 'base64')
+
+const firstBase64 =
+  'data:image/png;base64,' + uni.getFileSystemManager().readFileSync(first, 'base64')
+
+const secondBase64 =
+  'data:image/png;base64,' + uni.getFileSystemManager().readFileSync(second, 'base64')
+
+const thirdBase64 =
+  'data:image/png;base64,' + uni.getFileSystemManager().readFileSync(third, 'base64')
 
 const topThree = ref([
   {
@@ -174,6 +186,46 @@ const rankList = ref([
       'https://img1.baidu.com/it/u=1653751609,236581088&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
     rank: 10,
   },
+  {
+    id: 311,
+    name: '用户1233',
+    score: 72,
+    avatar:
+      'https://img1.baidu.com/it/u=1653751609,236581088&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
+    rank: 11,
+  },
+  {
+    id: 311,
+    name: '用户1233',
+    score: 72,
+    avatar:
+      'https://img1.baidu.com/it/u=1653751609,236581088&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
+    rank: 12,
+  },
+  {
+    id: 311,
+    name: '用户1233',
+    score: 72,
+    avatar:
+      'https://img1.baidu.com/it/u=1653751609,236581088&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
+    rank: 13,
+  },
+  {
+    id: 311,
+    name: '用户1233',
+    score: 72,
+    avatar:
+      'https://img1.baidu.com/it/u=1653751609,236581088&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
+    rank: 14,
+  },
+  {
+    id: 411,
+    name: '用户1233',
+    score: 72,
+    avatar:
+      'https://img1.baidu.com/it/u=1653751609,236581088&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
+    rank: 15,
+  },
 ])
 
 const myRank = reactive({
@@ -190,7 +242,7 @@ const myRank = reactive({
 .score-ranking-container {
   display: flex;
   flex-direction: column;
-  padding-bottom: 64rpx;
+  // padding-bottom: 64rpx;
 
   .padding-wrapper {
     display: flex;

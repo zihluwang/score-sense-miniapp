@@ -7,6 +7,8 @@ export const useDeviceStore = defineStore(
     const statusBarHeight = ref(null)
     const menuButtonInfo = ref(null)
     const navBarHeight = ref(null)
+    const safeAreaInsets = ref(null)
+    const dpr = ref(null)
 
     const getInfo = () => {
       statusBarHeight.value = uni.getSystemInfoSync().statusBarHeight
@@ -19,12 +21,20 @@ export const useDeviceStore = defineStore(
       console.log('设备信息：状态栏高度', statusBarHeight.value)
       console.log('设备信息：胶囊菜单信息', menuButtonInfo.value)
       console.log('设备信息：导航栏高度', navBarHeight.value)
+
+      const systemInfo = uni.getSystemInfoSync()
+      safeAreaInsets.value = systemInfo.safeAreaInsets
+      console.log('设备信息：安全区域', safeAreaInsets.value)
+
+      dpr.value = systemInfo.pixelRatio
+      console.log('设备信息：像素比', dpr.value)
     }
 
     return {
       statusBarHeight,
       menuButtonInfo,
       navBarHeight,
+      safeAreaInsets,
       getInfo,
     }
   },

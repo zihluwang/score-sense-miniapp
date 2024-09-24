@@ -9,7 +9,6 @@ interface NavigateToOptions {
        "/pages/job-selection/job-selection" |
        "/pages/memory/memory" |
        "/pages/my/my" |
-       "/pages/score-position/score-position" |
        "/pages/score-ranking/score-ranking" |
        "/pages/score-report/score-report" |
        "/pages/start-scoring/start-scoring";

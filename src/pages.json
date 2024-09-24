@@ -79,14 +79,6 @@
       }
     },
     {
-      "path": "pages/score-position/score-position",
-      "type": "page",
-      "layout": "default",
-      "style": {
-        "navigationBarTitleText": "估分职位"
-      }
-    },
-    {
       "path": "pages/score-ranking/score-ranking",
       "type": "page",
       "layout": "default",

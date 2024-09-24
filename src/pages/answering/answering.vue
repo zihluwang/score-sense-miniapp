@@ -13,11 +13,11 @@
     <view class="wrapper flex-1 p-25rpx bg-white flex flex-col">
       <view class="h-33rpx flex items-center justify-between">
         <view class="text-24rpx text-#999999 w-585rpx ellipsis">
-          杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理
+          {{ examTitle }}
         </view>
         <view class="text-24rpx text-#999999">
           <text class="text-#333333">{{ nth }}</text>
-          /50题
+          /{{ topics.length }}题
         </view>
       </view>
 
@@ -143,6 +143,9 @@ const deviceStore = useDeviceStore()
 // 选项的字母
 const choices = ref('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
+// 试卷标题
+const examTitle = ref('杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理')
+
 // 题目列表
 const topics = ref([...topicList])
 // 判断现在这张试卷是否已经作答完成
@@ -241,51 +244,5 @@ const choose = (index, choice) => {
   &:nth-last-child(1) {
     margin-right: 0 !important;
   }
-}
-
-@keyframes toRight {
-  0% {
-    opacity: 1;
-    transform: translateX(-100%);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.toRight {
-  animation-name: toRight;
-  animation-duration: 1.3s;
-  animation-timing-function: ease-in-out;
-}
-
-@keyframes toLeft {
-  0% {
-    opacity: 1;
-    transform: translateX(100%);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.toLeft {
-  animation-name: toLeft;
-  animation-duration: 1.3s;
-  animation-timing-function: ease-in-out;
 }
 </style>

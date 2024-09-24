@@ -78,11 +78,24 @@
         </view>
         <view class="color-example__item">
           <view class="color-dot"></view>
-          大错
+          答错
         </view>
         <view class="color-example__item">
           <view class="color-dot"></view>
           未答
+        </view>
+      </view>
+      <view class="mt-30rpx">
+        <view class="text-24rpx text-#333333 mb-40rpx">一、单项选择题</view>
+        <view class="grid grid-cols-5 gap-50rpx">
+          <view
+            class="topic-item w-90rpx h-90rpx rounded-50% bg-#eeeeee flex center"
+            :class="{ active: item.choose.length > 0 }"
+            v-for="item in topics"
+            :key="item.id"
+          >
+            {{ item.index }}
+          </view>
         </view>
       </view>
     </view>
@@ -96,6 +109,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { onReady } from '@dcloudio/uni-app'
+import topicList from '../answering/data.json'
 
 const categories1 = []
 const data1 = []
@@ -158,6 +172,9 @@ const toRanking = () => {
     url: '/pages/score-ranking/score-ranking',
   })
 }
+
+// 题目列表
+const topics = ref([...topicList])
 </script>
 
 <style lang="scss" scoped>

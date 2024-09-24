@@ -136,13 +136,13 @@ export const getEvnBaseUrl = () => {
 
     switch (envVersion) {
       case 'develop':
-        baseUrl = 'http://192.168.2.6:8080'
+        baseUrl = 'http://localhost:8080'
         break
       case 'trial':
-        baseUrl = 'http://192.168.2.6:8080'
+        baseUrl = 'http://localhost:8080'
         break
       case 'release':
-        baseUrl = 'http://192.168.2.6:8080'
+        baseUrl = 'http://localhost:8080'
         break
     }
   }

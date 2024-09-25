@@ -64,7 +64,7 @@
                   我来回忆
                   <wd-icon name="arrow-right" size="32rpx"></wd-icon>
                 </view>
-                <view class="share" @click.stop="handleClickShare('topic', item.id)">
+                <view class="share" @click.stop="handleClickShare('topic', item.name)">
                   分享
                   <wd-icon name="arrow-right" size="32rpx"></wd-icon>
                 </view>
@@ -97,8 +97,10 @@
     <!-- 分享卡片 -->
     <wd-action-sheet v-model="show" title="分享" :safe-area-inset-bottom="false">
       <view class="flex justify-center items-center pb-20rpx">
-        <view
-          class="item flex flex-col justify-center items-center mr-102rpx"
+        <button
+          open-type="share"
+          class="item flex flex-col justify-center items-center p-0! ml-0! mr-102rpx bg-transparent"
+          style="line-height: 1"
           @click.stop="handleClickShareItem('friend')"
         >
           <image
@@ -107,7 +109,7 @@
             mode="scaleToFill"
           />
           <text class="text-[#666666] text-24rpx">分享好友</text>
-        </view>
+        </button>
         <view
           class="item flex flex-col justify-center items-center"
           @click.stop="handleClickShareItem('timeline')"
@@ -141,6 +143,7 @@ import { getExamListReq, getExamTypeListReq, getSwiperListReq } from '@/service/
 import { useDivisionStore } from '@/store/divisions'
 import { ITabsItem } from '@/types/index/tabs'
 import { showLoading, hideLoading, showToast } from '@/utils/toast'
+import { onShareAppMessage, onShareTimeline } from '@dcloudio/uni-app'
 
 defineOptions({
   name: 'Home',
@@ -431,20 +434,35 @@ const report = () => {
 
 // 控制分享面板显示隐藏
 const show = ref(false)
-const handleClickShare = (type: 'page | topic', id?: number) => {
+const shareConfig = reactive({
+  title: '',
+  path: '',
+})
+const handleClickShare = (type: 'page' | 'topic', name?: string) => {
+  // 更新值，用于在点击分享的时候分享对应的数据
+  if (type === 'page') {
+    shareConfig.title = '估分通道已开启！选岗估分，立知排名，速来！'
+    shareConfig.path = '/pages/index/index'
+  } else {
+    shareConfig.title = name || '估分通道已开启！选岗估分，立知排名，速来！'
+    shareConfig.path = '/pages/start-scoring/start-scoring'
+  }
+  // 展开分享面板
   show.value = true
-  // TODO: 更新值，用于在点击分享的时候分享对应的数据
 }
 
 // 真正实现分享的函数
 const handleClickShareItem = (type: 'friend' | 'timeline' | 'image') => {
-  if (type === 'image') {
-    console.log('准备制作进行分享')
-  } else if (type === 'friend') {
-    console.log('准备分享至好友列表')
-  } else {
-    console.log('准备分享至朋友圈')
-  }
+  show.value = false
+  setTimeout(() => {
+    if (type === 'image') {
+      console.log('准备制作进行分享')
+    } else if (type === 'friend') {
+      console.log('准备分享至好友列表')
+    } else {
+      console.log('准备分享至朋友圈')
+    }
+  }, 1000)
 }
 
 onLoad(async () => {
@@ -467,6 +485,22 @@ onLoad(async () => {
   await getExamList(examList.value[0].id)
   // 关闭加载
   hideLoading()
+})
+
+// 分享给微信好友
+onShareAppMessage((res) => {
+  return {
+    title: shareConfig.title,
+    path: shareConfig.path,
+  }
+})
+
+// 分享到微信朋友圈
+onShareTimeline(() => {
+  return {
+    title: shareConfig.title,
+    path: shareConfig.path,
+  }
 })
 </script>
 

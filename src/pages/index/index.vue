@@ -3,6 +3,7 @@
 {
   layout: 'default',
   style: {
+    navigationStyle: 'custom',
     navigationBarTitleText: '首页',
   },
 }
@@ -138,16 +139,16 @@
     <wd-overlay :show="show2" @click="show2 = false">
       <view class="flex center relative">
         <image
-          class="w-170rpx h-209rpx absolute right-160rpx top-25rpx"
+          class="w-170rpx h-209rpx absolute right-160rpx top-180rpx"
           src="@/static/images/tip/line-arrow.png"
           mode="scaleToFill"
         />
         <image
-          class="w-555rpx h-418rpx absolute right-160rpx top-225rpx"
+          class="w-555rpx h-418rpx absolute right-160rpx top-370rpx"
           src="@/static/images/tip/tip-card-bg.png"
           mode="scaleToFill"
         />
-        <view class="text-#333333 text-32rpx absolute left-135rpx top-365rpx">
+        <view class="text-#333333 text-32rpx absolute left-135rpx top-525rpx">
           请点击右上角分享到朋友圈
         </view>
       </view>

@@ -152,22 +152,6 @@ const opts = reactive({
   },
 })
 
-onReady(() => {
-  setTimeout(() => {
-    // 模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-    const res = {
-      categories: categories1,
-      series: [
-        {
-          name: '成交量A',
-          data: data1,
-        },
-      ],
-    }
-    chartData.value = JSON.parse(JSON.stringify(res))
-  }, 500)
-})
-
 const restartExam = () => {
   uni.navigateTo({
     url: '/pages/start-scoring/start-scoring',

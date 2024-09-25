@@ -134,6 +134,24 @@
         </view>
       </view>
     </wd-action-sheet>
+    <!-- 朋友圈提示 -->
+    <wd-overlay :show="show2" @click="show2 = false">
+      <view class="flex center relative">
+        <image
+          class="w-170rpx h-209rpx absolute right-160rpx top-25rpx"
+          src="@/static/images/tip/line-arrow.png"
+          mode="scaleToFill"
+        />
+        <image
+          class="w-555rpx h-418rpx absolute right-160rpx top-225rpx"
+          src="@/static/images/tip/tip-card-bg.png"
+          mode="scaleToFill"
+        />
+        <view class="text-#333333 text-32rpx absolute left-135rpx top-365rpx">
+          请点击右上角分享到朋友圈
+        </view>
+      </view>
+    </wd-overlay>
   </view>
 </template>
 
@@ -434,6 +452,7 @@ const report = () => {
 
 // 控制分享面板显示隐藏
 const show = ref(false)
+const show2 = ref(false)
 const shareConfig = reactive({
   title: '',
   path: '',
@@ -454,15 +473,14 @@ const handleClickShare = (type: 'page' | 'topic', name?: string) => {
 // 真正实现分享的函数
 const handleClickShareItem = (type: 'friend' | 'timeline' | 'image') => {
   show.value = false
-  setTimeout(() => {
-    if (type === 'image') {
-      console.log('准备制作进行分享')
-    } else if (type === 'friend') {
-      console.log('准备分享至好友列表')
-    } else {
-      console.log('准备分享至朋友圈')
-    }
-  }, 1000)
+  if (type === 'image') {
+    console.log('准备制作进行分享')
+  } else if (type === 'friend') {
+    console.log('准备分享至好友列表')
+  } else {
+    console.log('准备分享至朋友圈')
+    show2.value = true
+  }
 }
 
 onLoad(async () => {

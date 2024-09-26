@@ -136,13 +136,13 @@ export const getEvnBaseUrl = () => {
 
     switch (envVersion) {
       case 'develop':
-        baseUrl = 'http://localhost:8080'
+        baseUrl = 'https://mini-app.ahgtgk.com/api'
         break
       case 'trial':
-        baseUrl = 'http://localhost:8080'
+        baseUrl = 'https://mini-app.ahgtgk.com/api'
         break
       case 'release':
-        baseUrl = 'http://localhost:8080'
+        baseUrl = 'https://mini-app.ahgtgk.com/api'
         break
     }
   }
@@ -165,13 +165,13 @@ export const getEvnBaseUploadUrl = () => {
 
     switch (envVersion) {
       case 'develop':
-        baseUploadUrl = 'https://ukw0y1.laf.run/upload'
+        baseUploadUrl = 'https://mini-app.ahgtgk.com/api'
         break
       case 'trial':
-        baseUploadUrl = 'https://ukw0y1.laf.run/upload'
+        baseUploadUrl = 'https://mini-app.ahgtgk.com/api'
         break
       case 'release':
-        baseUploadUrl = 'https://ukw0y1.laf.run/upload'
+        baseUploadUrl = 'https://mini-app.ahgtgk.com/api'
         break
     }
   }

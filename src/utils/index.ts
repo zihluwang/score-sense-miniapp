@@ -136,7 +136,7 @@ export const getEvnBaseUrl = () => {
 
     switch (envVersion) {
       case 'develop':
-        baseUrl = 'https://mini-app.ahgtgk.com/api'
+        baseUrl = 'http://localhost:8080'
         break
       case 'trial':
         baseUrl = 'https://mini-app.ahgtgk.com/api'
@@ -165,7 +165,7 @@ export const getEvnBaseUploadUrl = () => {
 
     switch (envVersion) {
       case 'develop':
-        baseUploadUrl = 'https://mini-app.ahgtgk.com/api'
+        baseUploadUrl = 'http://localhost:8080'
         break
       case 'trial':
         baseUploadUrl = 'https://mini-app.ahgtgk.com/api'

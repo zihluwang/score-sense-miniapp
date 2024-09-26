@@ -153,6 +153,26 @@
         </view>
       </view>
     </wd-overlay>
+    <!-- 海报生成器 -->
+    <l-painter
+      isCanvasToTempFilePath
+      @success="path = $event"
+      custom-style="position: fixed; top: 0; left: 200%"
+      css="width: 650rpx;"
+    >
+      <l-painter-image
+        src="@/static/images/index/hai_bao.png"
+        css="width: 650rpx;  height: 1141rpx;"
+      />
+      <l-painter-text
+        :text="shareConfig.title"
+        css="display: block; position: absolute; left: 50rpx; top: 303rpx; width:428rpx; height:37rpx; color: #ffffff; font-size: 26rpx; line-clamp: 1;"
+      />
+      <l-painter-image
+        src="@/static/images/index/code.png"
+        css="width: 150rpx;  height: 150rpx; position: absolute; right: 98rpx; bottom: 50rpx;"
+      />
+    </l-painter>
   </view>
 </template>
 
@@ -483,6 +503,10 @@ const handleClickShareItem = (type: 'friend' | 'timeline' | 'image') => {
     show2.value = true
   }
 }
+
+// 海报路径地址
+// 就是一串 base64 编码
+const path = ref('')
 
 onLoad(async () => {
   // 显示加载

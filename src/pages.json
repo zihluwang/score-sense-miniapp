@@ -48,6 +48,14 @@
       }
     },
     {
+      "path": "pages/analysis/analysis",
+      "type": "page",
+      "layout": "default",
+      "style": {
+        "navigationBarTitleText": "解析"
+      }
+    },
+    {
       "path": "pages/answering/answering",
       "type": "page",
       "layout": "default",

@@ -65,7 +65,7 @@
                   我来回忆
                   <wd-icon name="arrow-right" size="32rpx"></wd-icon>
                 </view>
-                <view class="share" @click.stop="handleClickShare('topic', item.name)">
+                <view class="share" @click.stop="handleClickShare('topic', item.name, item.id)">
                   分享
                   <wd-icon name="arrow-right" size="32rpx"></wd-icon>
                 </view>
@@ -102,7 +102,6 @@
           open-type="share"
           class="item flex flex-col justify-center items-center p-0! ml-0! mr-102rpx bg-transparent"
           style="line-height: 1"
-          @click.stop="handleClickShareItem('friend')"
         >
           <image
             class="w-80rpx h-80rpx rounded-50% overflow-hidden mb-18rpx"
@@ -156,7 +155,8 @@
     <!-- 海报生成器 -->
     <l-painter
       isCanvasToTempFilePath
-      @success="path = $event"
+      @success="haiBaoPath = $event"
+      path-type="url"
       custom-style="position: fixed; top: 0; left: 200%"
       css="width: 650rpx;"
     >
@@ -169,7 +169,7 @@
         css="display: block; position: absolute; left: 50rpx; top: 303rpx; width:428rpx; height:37rpx; color: #ffffff; font-size: 26rpx; line-clamp: 1;"
       />
       <l-painter-image
-        src="@/static/images/index/code.png"
+        :src="haiBaoQrcodePath"
         css="width: 150rpx;  height: 150rpx; position: absolute; right: 98rpx; bottom: 50rpx;"
       />
     </l-painter>
@@ -183,6 +183,8 @@ import { useDivisionStore } from '@/store/divisions'
 import { ITabsItem } from '@/types/index/tabs'
 import { showLoading, hideLoading, showToast } from '@/utils/toast'
 import { onShareAppMessage, onShareTimeline } from '@dcloudio/uni-app'
+import { getMiniCodeReq, IMiniCodeParams } from '@/service/miniCode/miniCode'
+import { base64ToTempFilePath } from '@/utils/base64ToPath'
 
 defineOptions({
   name: 'Home',
@@ -474,28 +476,46 @@ const report = () => {
 // 控制分享面板显示隐藏
 const show = ref(false)
 const show2 = ref(false)
+
+// 海报路径地址
+// 就是一串 base64 编码
+const haiBaoPath = ref('')
+const haiBaoQrcodePath = ref('')
+
+// 分享配置
 const shareConfig = reactive({
-  title: '',
-  path: '',
+  title: '估分通道已开启！选岗估分，立知排名，速来！',
+  path: '/pages/index/index',
+  scene: '',
 })
-const handleClickShare = (type: 'page' | 'topic', name?: string) => {
+
+const handleClickShare = (type: 'page' | 'topic', name?: string, id?: number) => {
   // 更新值，用于在点击分享的时候分享对应的数据
   if (type === 'page') {
     shareConfig.title = '估分通道已开启！选岗估分，立知排名，速来！'
-    shareConfig.path = '/pages/index/index'
+    shareConfig.path = 'pages/index/index'
+    shareConfig.scene = ''
   } else {
     shareConfig.title = name || '估分通道已开启！选岗估分，立知排名，速来！'
-    shareConfig.path = '/pages/start-scoring/start-scoring'
+    shareConfig.path = 'pages/start-scoring/start-scoring'
+    shareConfig.scene = 'id=' + id
   }
   // 展开分享面板
   show.value = true
 }
 
 // 真正实现分享的函数
-const handleClickShareItem = (type: 'friend' | 'timeline' | 'image') => {
+const handleClickShareItem = async (type: 'friend' | 'timeline' | 'image') => {
   show.value = false
   if (type === 'image') {
-    console.log('准备制作进行分享')
+    console.log('准备制作海报进行分享')
+    showLoading()
+    // 获取小程序码
+    await getMiniCode()
+    // 展示海报
+    wx.showShareImageMenu({
+      path: haiBaoPath.value,
+    })
   } else if (type === 'friend') {
     console.log('准备分享至好友列表')
   } else {
@@ -504,9 +524,27 @@ const handleClickShareItem = (type: 'friend' | 'timeline' | 'image') => {
   }
 }
 
-// 海报路径地址
-// 就是一串 base64 编码
-const path = ref('')
+// 获取小程序码
+const getMiniCode = async () => {
+  try {
+    const reqData: IMiniCodeParams = {
+      scene: shareConfig.scene,
+      page: shareConfig.path,
+      checkPath: false,
+    }
+    const res = await getMiniCodeReq(reqData)
+    console.log('获取小程序码成功', res)
+    base64ToTempFilePath(res, (tempFilePath) => {
+      console.log('小程序码临时路径', tempFilePath)
+      haiBaoQrcodePath.value = '@/static/images/index/code.png'
+    })
+  } catch (e) {
+    // 关闭加载
+    hideLoading()
+    showToast('生成海报失败')
+    console.error('生成海报失败', e)
+  }
+}
 
 onLoad(async () => {
   // 显示加载

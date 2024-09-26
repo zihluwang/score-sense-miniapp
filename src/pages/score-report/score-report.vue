@@ -164,6 +164,12 @@ const toRanking = () => {
   })
 }
 
+// const toAnalysis = () => {
+//   uni.navigateTo({
+//     url: '/pages/analysis/analysis',
+//   })
+// }
+
 // 题目列表
 const topics = ref([...topicList])
 </script>

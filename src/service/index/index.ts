@@ -21,6 +21,6 @@ export const getExamTypeListReq = () => {
  * @param typeId 分类id
  * @returns
  */
-export const getExamListReq = (typeId: number) => {
+export const getExamListReq = (typeId: string) => {
   return http.get(`/exams/types/${typeId}`)
 }

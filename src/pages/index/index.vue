@@ -279,158 +279,91 @@ const getExamTypeList = async () => {
   }
 }
 
-const handleChangeTab = (tab: ITabsItem, currentTab: string, index: number) => {
+const handleChangeTab = async (tab: ITabsItem, currentTab: string, index: number) => {
   console.log(tab)
   console.log(currentTab)
   console.log(index)
   showLoading()
   examList.value = []
-
-  setTimeout(async () => {
-    hideLoading()
-    await getExamList(tab.id)
-    examList.value = [
-      {
-        id: 1,
-        users: 30,
-        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-        publishTime: '09月23日 10:30',
-        type: 1,
-      },
-      {
-        id: 2,
-        users: 99,
-        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-        publishTime: '09月23日 10:30',
-        type: 2,
-      },
-      {
-        id: 3,
-        users: 4,
-        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-        publishTime: '09月23日 10:30',
-        type: 3,
-      },
-      {
-        id: 4,
-        users: 78,
-        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-        publishTime: '09月23日 10:30',
-        type: 2,
-      },
-      {
-        id: 5,
-        users: 128,
-        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-        publishTime: '09月23日 10:30',
-        type: 1,
-      },
-      {
-        id: 6,
-        users: 887,
-        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-        publishTime: '09月23日 10:30',
-        type: 2,
-      },
-      {
-        id: 7,
-        users: 1,
-        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-        publishTime: '09月23日 10:30',
-        type: 3,
-      },
-      {
-        id: 8,
-        users: 99,
-        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-        publishTime: '09月23日 10:30',
-        type: 2,
-      },
-      {
-        id: 9,
-        users: 2,
-        name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-        publishTime: '09月23日 10:30',
-        type: 1,
-      },
-    ]
-  }, 1500)
+  await getExamList(tab.id)
+  hideLoading()
 }
 
 const examList = ref([
-  {
-    id: 1,
-    users: 30,
-    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-    publishTime: '09月23日 10:30',
-    type: 1,
-  },
-  {
-    id: 2,
-    users: 99,
-    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-    publishTime: '09月23日 10:30',
-    type: 2,
-  },
-  {
-    id: 3,
-    users: 4,
-    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-    publishTime: '09月23日 10:30',
-    type: 3,
-  },
-  {
-    id: 4,
-    users: 78,
-    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-    publishTime: '09月23日 10:30',
-    type: 2,
-  },
-  {
-    id: 5,
-    users: 128,
-    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-    publishTime: '09月23日 10:30',
-    type: 1,
-  },
-  {
-    id: 6,
-    users: 887,
-    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-    publishTime: '09月23日 10:30',
-    type: 2,
-  },
-  {
-    id: 7,
-    users: 1,
-    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-    publishTime: '09月23日 10:30',
-    type: 3,
-  },
-  {
-    id: 8,
-    users: 99,
-    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-    publishTime: '09月23日 10:30',
-    type: 2,
-  },
-  {
-    id: 9,
-    users: 2,
-    name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
-    publishTime: '09月23日 10:30',
-    type: 1,
-  },
+  // {
+  //   id: 1,
+  //   users: 30,
+  //   name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+  //   publishTime: '09月23日 10:30',
+  //   type: 1,
+  // },
+  // {
+  //   id: 2,
+  //   users: 99,
+  //   name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+  //   publishTime: '09月23日 10:30',
+  //   type: 2,
+  // },
+  // {
+  //   id: 3,
+  //   users: 4,
+  //   name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+  //   publishTime: '09月23日 10:30',
+  //   type: 3,
+  // },
+  // {
+  //   id: 4,
+  //   users: 78,
+  //   name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+  //   publishTime: '09月23日 10:30',
+  //   type: 2,
+  // },
+  // {
+  //   id: 5,
+  //   users: 128,
+  //   name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+  //   publishTime: '09月23日 10:30',
+  //   type: 1,
+  // },
+  // {
+  //   id: 6,
+  //   users: 887,
+  //   name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+  //   publishTime: '09月23日 10:30',
+  //   type: 2,
+  // },
+  // {
+  //   id: 7,
+  //   users: 1,
+  //   name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+  //   publishTime: '09月23日 10:30',
+  //   type: 3,
+  // },
+  // {
+  //   id: 8,
+  //   users: 99,
+  //   name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+  //   publishTime: '09月23日 10:30',
+  //   type: 2,
+  // },
+  // {
+  //   id: 9,
+  //   users: 2,
+  //   name: '杭州上城区事业单位招聘笔试题目 - 根据考生回忆整理',
+  //   publishTime: '09月23日 10:30',
+  //   type: 1,
+  // },
 ])
 
 /**
  * 获取考试列表
  * @param typeId 考试类型id
  */
-const getExamList = async (typeId: number) => {
+const getExamList = async (typeId: string) => {
   try {
     const res = await getExamListReq(typeId)
     console.log('获取考试列表成功', res)
+    examList.value = res.records
   } catch (e) {
     showToast('获取考试列表失败')
     console.log('获取考试列表失败', e)
@@ -547,7 +480,7 @@ onLoad(async () => {
   // 获取考试分类
   await getExamTypeList()
   // 获取考试列表
-  await getExamList(examList.value[0].id)
+  await getExamList(examTypesLst.value[0].id)
   // 关闭加载
   hideLoading()
 })

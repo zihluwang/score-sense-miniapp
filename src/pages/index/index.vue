@@ -8,6 +8,7 @@
   },
 }
 </route>
+
 <template>
   <view class="index-container">
     <!-- 轮播图 -->
@@ -184,7 +185,6 @@ import { ITabsItem } from '@/types/index/tabs'
 import { showLoading, hideLoading, showToast } from '@/utils/toast'
 import { onShareAppMessage, onShareTimeline } from '@dcloudio/uni-app'
 import { getMiniCodeReq, IMiniCodeParams } from '@/service/miniCode/miniCode'
-import { base64ToTempFilePath } from '@/utils/base64ToPath'
 import { getEvnBaseUrl } from '@/utils'
 
 defineOptions({
@@ -200,6 +200,7 @@ const toMemoryPage = (id: string | number) => {
 const current = ref<number>(0)
 const swiperList = ref([])
 
+/** 获取轮播图列表 */
 const getSwiperList = async () => {
   try {
     const res = await getSwiperListReq()
@@ -430,9 +431,15 @@ const handleClickShareItem = async (type: 'friend' | 'timeline' | 'image') => {
     // 获取小程序码
     await getMiniCode()
     // 展示海报
-    wx.showShareImageMenu({
-      path: haiBaoPath.value,
-    })
+    setTimeout(() => {
+      hideLoading()
+      wx.showShareImageMenu({
+        path: haiBaoPath.value,
+        fail: (error) => {
+          console.error('海报展示失败', error)
+        },
+      })
+    }, 2000)
   } else if (type === 'friend') {
     console.log('准备分享至好友列表')
   } else {
@@ -451,10 +458,7 @@ const getMiniCode = async () => {
     }
     const res = await getMiniCodeReq(reqData)
     console.log('获取小程序码成功', res)
-    base64ToTempFilePath(res, (tempFilePath) => {
-      console.log('小程序码临时路径', tempFilePath)
-      haiBaoQrcodePath.value = '@/static/images/index/code.png'
-    })
+    haiBaoQrcodePath.value = `${getEvnBaseUrl()}/attachments/${res.id}`
   } catch (e) {
     // 关闭加载
     hideLoading()

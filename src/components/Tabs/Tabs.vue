@@ -14,7 +14,7 @@
       :class="{ active: currentTab === 'tab' + index }"
       @tap="handleTabChange(tab, index)"
     >
-      <text class="text">{{ tab.title }}</text>
+      <text class="text">{{ tab.name }}</text>
       <view class="line"></view>
     </view>
   </scroll-view>

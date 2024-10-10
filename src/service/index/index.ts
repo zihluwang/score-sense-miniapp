@@ -13,7 +13,7 @@ export const getSwiperListReq = () => {
  * @returns
  */
 export const getExamTypeListReq = () => {
-  return http.get('/exams/types')
+  return http.get<{ records: any[] }>('/exams/types')
 }
 
 /**

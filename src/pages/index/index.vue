@@ -263,22 +263,7 @@ const handleClickLocation = () => {
   picker?.value?.open()
 }
 
-const examTypesLst = ref<ITabsItem[]>([
-  { id: 1, title: '最新' },
-  { id: 2, title: '公务员' },
-  { id: 3, title: '事业单位' },
-  { id: 4, title: '教师' },
-  { id: 5, title: '军队文职' },
-  { id: 6, title: '医疗' },
-  { id: 7, title: '研究生' },
-  { id: 8, title: '选调生' },
-  { id: 9, title: '公安招警' },
-  { id: 10, title: '遴选' },
-  { id: 11, title: '国企' },
-  { id: 12, title: '三支一扶' },
-  { id: 13, title: '书记员' },
-  { id: 14, title: '六项人员' },
-])
+const examTypesLst = ref<ITabsItem[]>([])
 
 /**
  * 获取考试类型列表
@@ -287,6 +272,7 @@ const getExamTypeList = async () => {
   try {
     const res = await getExamTypeListReq()
     console.log('获取考试类型列表成功', res)
+    examTypesLst.value = res.records
   } catch (e) {
     showToast('获取考试类型列表失败')
     console.log('获取考试类型列表失败', e)
@@ -552,7 +538,7 @@ onLoad(async () => {
   // 页面初始化的时候更新省市列表数据
   await divisionStore.getDivisions()
   // 更新数据之后初始化地理位置
-  location.value = ['11', '1101']
+  location.value = ['34', '3417'] // 老板所在地是安徽池州
   const province = divisionStore.divisions.find((item) => item.code === location.value[0])
   const city = province?.prefectures.find((item) => item.code === location.value[1])
   displayLocationText.value = `${province?.name}${city?.name}`

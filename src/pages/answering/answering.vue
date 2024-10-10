@@ -8,7 +8,7 @@
 </route>
 
 <template>
-  <view class="answer-container h-100vh flex flex-col">
+  <view class="answer-container h-100vh flex flex-col overflow-hidden">
     <!-- 题目卡片 -->
     <view class="wrapper flex-1 p-25rpx bg-white flex flex-col">
       <view class="h-33rpx flex items-center justify-between">
@@ -131,7 +131,7 @@
       </view>
     </view>
   </view>
-  <!-- <wd-watermark content="公途公考·估分助手" :width="130" :height="130" :z-index="10"></wd-watermark> -->
+  <wd-watermark content="公途公考·估分助手" :width="130" :height="130" :z-index="10"></wd-watermark>
   <wd-action-sheet v-model="show" title="答题卡" :safe-area-inset-bottom="false">
     <view
       class="px-25rpx"

@@ -15,7 +15,14 @@ export const http = <T>(options: CustomRequestOptions) => {
         // 状态码 2xx，参考 axios 的设计
         if (res.statusCode >= 200 && res.statusCode < 300) {
           // 2.1 提取核心数据 res.data
-          resolve(res.data)
+          // 如果是login接口先从headers拿到token然后再返回核心数据
+          if (options.url === '/users/login') {
+            const temp: any = res.data
+            temp.Authorization = res.header.Authorization
+            resolve(temp)
+          } else {
+            resolve(res.data)
+          }
         } else if (res.statusCode === 401) {
           // 401错误  -> 清理用户信息，跳转到登录页
           // userStore.clearUserInfo()

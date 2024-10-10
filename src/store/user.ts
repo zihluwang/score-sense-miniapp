@@ -4,7 +4,7 @@ import { ref } from 'vue'
 const initState: IUserInfo = {
   id: 0,
   openId: '',
-  token: '',
+  Authorization: '',
   username: '',
   phoneNumber: '',
   avatarUrl: '',
@@ -28,7 +28,7 @@ export const useUserStore = defineStore(
       userInfo.value = { ...initState }
     }
 
-    const isLogin = computed(() => !!userInfo.value.token)
+    const isLogin = computed(() => !!userInfo.value.Authorization)
 
     return {
       userInfo,

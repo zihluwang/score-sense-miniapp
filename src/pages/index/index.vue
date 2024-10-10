@@ -185,6 +185,7 @@ import { showLoading, hideLoading, showToast } from '@/utils/toast'
 import { onShareAppMessage, onShareTimeline } from '@dcloudio/uni-app'
 import { getMiniCodeReq, IMiniCodeParams } from '@/service/miniCode/miniCode'
 import { base64ToTempFilePath } from '@/utils/base64ToPath'
+import { getEvnBaseUrl } from '@/utils'
 
 defineOptions({
   name: 'Home',
@@ -197,18 +198,15 @@ const toMemoryPage = (id: string | number) => {
 }
 
 const current = ref<number>(0)
-const swiperList = ref([
-  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/redpanda.jpg',
-  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/capybara.jpg',
-  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/panda.jpg',
-  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/moon.jpg',
-  'https://registry.npmmirror.com/wot-design-uni-assets/*/files/meng.jpg',
-])
+const swiperList = ref([])
 
 const getSwiperList = async () => {
   try {
     const res = await getSwiperListReq()
     console.log('获取轮播图列表成功', res)
+    swiperList.value = (res as any).map((swiper) => {
+      return `${getEvnBaseUrl()}/attachments/${swiper.imageId}`
+    })
   } catch (e) {
     showToast('获取轮播图列表失败')
     console.log('获取轮播图列表失败', e)

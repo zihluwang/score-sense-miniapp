@@ -65,60 +65,61 @@
 import { useUserStore } from '@/store'
 import { hideLoading, showLoading, showToast } from '@/utils/toast'
 import { loginReq } from '@/service/login/login'
+import { getExamHistoryListReq } from '@/service/my/my'
 
 const userStore = useUserStore()
 
 type PageType = 'no-login' | 'no-score' | 'has-score'
 const pageType = ref<PageType>('no-login')
 const scoreList = ref([
-  {
-    id: 1,
-    time: '09月23日 10:30',
-    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
-    isFinish: false,
-    score: 0,
-    rank: 0,
-  },
-  {
-    id: 2,
-    time: '09月23日 10:30',
-    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
-    isFinish: true,
-    score: 83,
-    rank: 73,
-  },
-  {
-    id: 3,
-    time: '09月23日 10:30',
-    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
-    isFinish: true,
-    score: 77,
-    rank: 112,
-  },
-  {
-    id: 4,
-    time: '09月23日 10:30',
-    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
-    isFinish: false,
-    score: 0,
-    rank: 0,
-  },
-  {
-    id: 5,
-    time: '09月23日 10:30',
-    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
-    isFinish: false,
-    score: 0,
-    rank: 0,
-  },
-  {
-    id: 6,
-    time: '09月23日 10:30',
-    title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
-    isFinish: false,
-    score: 0,
-    rank: 0,
-  },
+  // {
+  //   id: 1,
+  //   time: '09月23日 10:30',
+  //   title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+  //   isFinish: false,
+  //   score: 0,
+  //   rank: 0,
+  // },
+  // {
+  //   id: 2,
+  //   time: '09月23日 10:30',
+  //   title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+  //   isFinish: true,
+  //   score: 83,
+  //   rank: 73,
+  // },
+  // {
+  //   id: 3,
+  //   time: '09月23日 10:30',
+  //   title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+  //   isFinish: true,
+  //   score: 77,
+  //   rank: 112,
+  // },
+  // {
+  //   id: 4,
+  //   time: '09月23日 10:30',
+  //   title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+  //   isFinish: false,
+  //   score: 0,
+  //   rank: 0,
+  // },
+  // {
+  //   id: 5,
+  //   time: '09月23日 10:30',
+  //   title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+  //   isFinish: false,
+  //   score: 0,
+  //   rank: 0,
+  // },
+  // {
+  //   id: 6,
+  //   time: '09月23日 10:30',
+  //   title: '杭州上城区事业单位招聘笔试估分题（考生回忆版）',
+  //   isFinish: false,
+  //   score: 0,
+  //   rank: 0,
+  // },
 ])
 
 /**
@@ -141,6 +142,9 @@ const login = () => {
           userStore.setUserInfo(res)
           hideLoading()
           showToast('登录成功')
+          // 获取考试历史列表
+          await getExamHistoryList()
+          // 判断是否有考试历史记录
           pageType.value = scoreList.value.length ? 'has-score' : 'no-score'
         } catch (e) {
           showToast('登录失败')
@@ -154,16 +158,15 @@ const login = () => {
   })
 }
 
-/**
- * 一键退出登录状态
- */
-const logout = () => {
-  // 退出账号登陆
-  console.log('退出登录')
-  // 清除 pinia 同时 storage 会自动清除
-  userStore.clearUserInfo()
-  // 通知
-  showToast('退出成功')
+const getExamHistoryList = async () => {
+  try {
+    const res = await getExamHistoryListReq()
+    console.log('获取考试历史列表成功', res)
+    // 更新考试列表
+    scoreList.value = res as unknown as any[]
+  } catch (e) {
+    console.error('获取考试列表失败', e)
+  }
 }
 
 /**
@@ -183,13 +186,23 @@ const report = () => {
   })
 }
 
-onShow(() => {
+onShow(async () => {
   // 每次进到这个页面都要进行判断
-  pageType.value = userStore.isLogin
-    ? scoreList.value.length
-      ? 'has-score'
-      : 'no-score'
-    : 'no-login'
+  // 首先判断是否登录
+  if (!userStore.isLogin) {
+    // 如果未登录就直接展示登录按钮
+    pageType.value = 'no-login'
+  } else {
+    // 如果已经登录就发请求获取考试历史
+    await getExamHistoryList()
+    if (scoreList.value.length === 0) {
+      // 如果列表为空就表示还没有考试历史展示缺省图标
+      pageType.value = 'no-score'
+    } else {
+      // 如果列表不为空就展示列表
+      pageType.value = 'has-score'
+    }
+  }
 })
 </script>
 

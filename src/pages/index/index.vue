@@ -286,7 +286,7 @@ const handleChangeTab = async (tab: ITabsItem, currentTab: string, index: number
   console.log(index)
   showLoading()
   examList.value = []
-  await getExamList(tab.id)
+  await getExamList(tab.id, location.value[1])
   hideLoading()
 }
 
@@ -359,10 +359,11 @@ const examList = ref([
 /**
  * 获取考试列表
  * @param typeId 考试类型id
+ * @param divisionCode 区域码
  */
-const getExamList = async (typeId: string) => {
+const getExamList = async (typeId: string, divisionCode: string) => {
   try {
-    const res = await getExamListReq(typeId)
+    const res = await getExamListReq(typeId, divisionCode)
     console.log('获取考试列表成功', res)
     examList.value = res.records
   } catch (e) {
@@ -484,7 +485,7 @@ onLoad(async () => {
   // 获取考试分类
   await getExamTypeList()
   // 获取考试列表
-  await getExamList(examTypesLst.value[0].id)
+  await getExamList(examTypesLst?.value[0]?.id, location?.value[1])
   // 关闭加载
   hideLoading()
 })
